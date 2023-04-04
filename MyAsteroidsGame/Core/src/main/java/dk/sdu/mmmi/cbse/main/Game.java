@@ -11,17 +11,20 @@ import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.managers.GameInputProcessor;
+import dk.sdu.mmmi.cbse.playersystem.Player;
 import dk.sdu.mmmi.cbse.playersystem.PlayerControlSystem;
 import dk.sdu.mmmi.cbse.playersystem.PlayerPlugin;
+import dk.sdu.mmmi.cbse.enemysystem.Enemy;
+import dk.sdu.mmmi.cbse.enemysystem.EnemyControlSystem;
+import dk.sdu.mmmi.cbse.enemysystem.EnemyPlugin;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game
-        implements ApplicationListener {
+public class Game implements ApplicationListener {
 
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
-
     private final GameData gameData = new GameData();
     private List<IEntityProcessingService> entityProcessors = new ArrayList<>();
     private List<IGamePluginService> entityPlugins = new ArrayList<>();
@@ -43,11 +46,24 @@ public class Game
                 new GameInputProcessor(gameData)
         );
 
-        IGamePluginService playerPlugin = new PlayerPlugin();
 
+        //Add plugins to the game
+        IGamePluginService playerPlugin = new PlayerPlugin();
+        IGamePluginService enemyPlugin = new EnemyPlugin();
+
+        //add processors to the game
         IEntityProcessingService playerProcess = new PlayerControlSystem();
+        IEntityProcessingService enemyProcess = new EnemyControlSystem();
+
+        // add player to the game
         entityPlugins.add(playerPlugin);
         entityProcessors.add(playerProcess);
+
+        // Add enemy to the game
+        entityPlugins.add(enemyPlugin);
+        entityProcessors.add(enemyProcess);
+
+
         // Lookup all Game Plugins using ServiceLoader
         for (IGamePluginService iGamePlugin : entityPlugins) {
             iGamePlugin.start(gameData, world);
@@ -78,9 +94,18 @@ public class Game
     }
 
     private void draw() {
+
         for (Entity entity : world.getEntities()) {
 
-            sr.setColor(1, 1, 1, 1);
+            if (entity.getClass() == Player.class) {
+                sr.setColor(1, 0, 0, 1);
+            } else if (entity.getClass() == Enemy.class) {
+                sr.setColor(0, 1, 0, 1);
+            } else {
+                sr.setColor(1, 1, 1, 1);
+            }
+
+//            sr.setColor(1, 1, 1, 1);
 
             sr.begin(ShapeRenderer.ShapeType.Line);
 
