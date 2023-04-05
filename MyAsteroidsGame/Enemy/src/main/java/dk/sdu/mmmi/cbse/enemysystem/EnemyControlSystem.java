@@ -7,6 +7,8 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+import static java.lang.Math.sqrt;
+
 public class EnemyControlSystem implements IEntityProcessingService {
     @Override
     public void process(GameData gameData, World world) {
@@ -39,18 +41,6 @@ public class EnemyControlSystem implements IEntityProcessingService {
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
 
-//        shapex[0] = x - 5;
-//        shapey[0] = y + 5;
-//
-//        shapex[1] = x + 5;
-//        shapey[1] = y + 5;
-//
-//        shapex[2] = x + 5;
-//        shapey[2] = y - 5;
-//
-//        shapex[3] = x - 5;
-//        shapey[3] = y - 5;
-
         shapex[0] = (float) (x + Math.cos(radians) * 8);
         shapey[0] = (float) (y + Math.sin(radians) * 8);
 
@@ -62,6 +52,9 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
         shapex[3] = (float) (x + Math.cos(radians + 4 * 3.1415f / 5) * 8);
         shapey[3] = (float) (y + Math.sin(radians + 4 * 3.1415f / 5) * 8);
+
+        //set the radius of the enemy
+        entity.setRadius((float) sqrt(8 * 8 + 8 * 8));
 
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);
