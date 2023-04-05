@@ -46,6 +46,8 @@ public class PlayerControlSystem implements IEntityProcessingService {
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
 
+
+
         shapex[0] = (float) (x + Math.cos(radians) * 8);
         shapey[0] = (float) (y + Math.sin(radians) * 8);
 
@@ -57,6 +59,8 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
         shapex[3] = (float) (x + Math.cos(radians + 4 * 3.1415f / 5) * 8);
         shapey[3] = (float) (y + Math.sin(radians + 4 * 3.1415f / 5) * 8);
+
+        entity.setRadius((float) sqrt(8 * 8 + 8 * 8));
 
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);
