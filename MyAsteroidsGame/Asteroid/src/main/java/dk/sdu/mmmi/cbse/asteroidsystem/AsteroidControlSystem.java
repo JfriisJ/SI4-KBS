@@ -9,8 +9,6 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Random;
 
-import static dk.sdu.mmmi.cbse.common.data.GameKeys.*;
-
 public class AsteroidControlSystem implements IEntityProcessingService {
 
     int numPoints = 6;

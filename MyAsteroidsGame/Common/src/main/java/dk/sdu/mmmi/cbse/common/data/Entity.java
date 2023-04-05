@@ -1,7 +1,6 @@
 package dk.sdu.mmmi.cbse.common.data;
 
 import dk.sdu.mmmi.cbse.common.data.entityparts.EntityPart;
-import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 
 import java.io.Serializable;
 import java.lang.reflect.Type;
