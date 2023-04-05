@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidControlSystem;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidPlugin;
+import dk.sdu.mmmi.cbse.collisionsystem.CollisionDetectionSystem;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
+import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.managers.GameInputProcessor;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 import dk.sdu.mmmi.cbse.playersystem.PlayerControlSystem;
@@ -30,6 +32,7 @@ public class Game implements ApplicationListener {
     private final GameData gameData = new GameData();
     private List<IEntityProcessingService> entityProcessors = new ArrayList<>();
     private List<IGamePluginService> entityPlugins = new ArrayList<>();
+    private List<IPostEntityProcessingService> postEntityProcessors = new ArrayList<>();
     private World world = new World();
 
     @Override
@@ -59,6 +62,10 @@ public class Game implements ApplicationListener {
         IEntityProcessingService enemyProcess = new EnemyControlSystem();
         IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
 
+        //add post processors to the game
+        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
+        postEntityProcessors.add(collisionPostProcessor);
+
         // add player to the game
         entityPlugins.add(playerPlugin);
         entityProcessors.add(playerProcess);
@@ -70,6 +77,8 @@ public class Game implements ApplicationListener {
         // Add asteroid to the game
         entityPlugins.add(asteroidPlugin);
         entityProcessors.add(asteroidProcess);
+
+
 
 
         // Lookup all Game Plugins using ServiceLoader
@@ -99,15 +108,18 @@ public class Game implements ApplicationListener {
         for (IEntityProcessingService entityProcessorService : entityProcessors) {
             entityProcessorService.process(gameData, world);
         }
+        for (IPostEntityProcessingService postEntityProcessorService : postEntityProcessors) {
+            postEntityProcessorService.process(gameData, world);
+        }
     }
 
     private void draw() {
 
         for (Entity entity : world.getEntities()) {
 
-            if (entity.getClass() == Player.class) {
+            if (entity.isType(Player.class)) {
                 sr.setColor(1, 0, 0, 1);
-            } else if (entity.getClass() == Enemy.class) {
+            } else if (entity.isType(Enemy.class)) {
                 sr.setColor(0, 1, 0, 1);
             } else {
                 sr.setColor(1, 1, 1, 1);
