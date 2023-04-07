@@ -8,30 +8,24 @@
         <artifactId>MyAsteroidsGame</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>Bullet</artifactId>
-    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>20</maven.compiler.source>
+        <maven.compiler.target>20</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <dependencies>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>dk.sdu.mmmi.cbse</groupId>
             <artifactId>Common</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>Player</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>Player</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx</artifactId>
+            <version>1.11.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

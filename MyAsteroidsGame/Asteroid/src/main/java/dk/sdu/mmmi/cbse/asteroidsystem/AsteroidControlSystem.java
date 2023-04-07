@@ -1,101 +1,55 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
+import com.badlogic.gdx.math.MathUtils;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
-import dk.sdu.mmmi.cbse.common.data.entityparts.SplitterPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Random;
 
-import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.LARGE;
-
 public class AsteroidControlSystem implements IEntityProcessingService {
 
-    int numPoints = 6;
-    Random rnd = new Random(10);
-    float angle = 0;
     @Override
     public void process(GameData gameData, World world) {
 
         for (Entity asteroid : world.getEntities(Asteroid.class)) {
             PositionPart positionPart = asteroid.getPart(PositionPart.class);
             MovingPart movingPart = asteroid.getPart(MovingPart.class);
+            LifePart lifePart = asteroid.getPart(LifePart.class);
 
-
-            float speed = (float) Math.random() * 10f + 40f;
-            if (rnd.nextInt() < 8) {
-                movingPart.setMaxSpeed(speed);
-                movingPart.setUp(true);
-            } else {
-                movingPart.setLeft(true);
-            }
-
+            movingPart.setUp(true);
             movingPart.process(gameData, asteroid);
             positionPart.process(gameData, asteroid);
             updateShape(asteroid);
-            movingPart.setLeft(false);
-            movingPart.setUp(false);
+
         }
 
     }
-
-    public Entity createAsteroid(GameData gameData) {
-        float speed = (float) Math.random() * 10f + 40f;
-        float radians = 3.1415f / 2 + (float) Math.random();
-        float x = gameData.getDisplayWidth() / 2 + 100;
-        float y = gameData.getDisplayHeight() / 2 + 50;
-        Entity asteroid = new Asteroid(LARGE);
-
-        asteroid.add(new MovingPart(0, speed, speed, 0));
-        asteroid.add(new PositionPart(x, y, radians));
-        asteroid.add(new LifePart(6, 69));
-        asteroid.add(new SplitterPart());
-        asteroid.setRadius(15);
-
-        return asteroid;
-    }
     private void updateShape(Entity asteroid) {
-
+        float[] shapex = asteroid.getShapeX();
+        float[] shapey = asteroid.getShapeY();
         PositionPart positionPart = asteroid.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
 
-        asteroid.getShapeX();
-        asteroid.getShapeY();
+        float angle = 0;
+        float radius = asteroid.getRadius();
 
-        float[] shapex = new float[6];
-        float[] shapey = new float[6];
-        Asteroid asAsteroid = (Asteroid) asteroid;
-        SplitterPart splitter = asAsteroid.getPart(SplitterPart.class);
-        if(asAsteroid.getSize().equals("LARGE")){
-            for (int i = 0; i < numPoints; i++) {
-                shapex[i] = x + (float) Math.cos(angle + radians) * 26;
-                shapey[i] = y + (float) Math.sin(angle + radians) * 26;
-                angle += 2 * 3.1415f / numPoints;
-            }
-        }
-        if(asAsteroid.getSize().equals("MEDIUM")){
-            for (int i = 0; i < numPoints; i++) {
-                shapex[i] = x + (float) Math.cos(angle + radians) * 16;
-                shapey[i] = y + (float) Math.sin(angle + radians) * 16;
-                angle += 2 * 3.1415f / numPoints;
-            }
-        }
-        if(asAsteroid.getSize().equals("SMALL")){
-            for (int i = 0; i < numPoints; i++) {
-                shapex[i] = x + (float) Math.cos(angle + radians) * 26;
-                shapey[i] = y + (float) Math.sin(angle + radians) * 26;
-                angle += 2 * 3.1415f / numPoints;
-            }
-        }
+        float[] dists = asteroid.getDists();
 
+        for (int i = 0; i < dists.length; i++) {
+            shapex[i] = x + MathUtils.cos(angle + radians) * dists[i];
+            shapey[i] = y + MathUtils.sin(angle + radians) * dists[i];
+            angle += MathUtils.PI2 / shapex.length;
+        }
 
         asteroid.setShapeX(shapex);
         asteroid.setShapeY(shapey);
+
     }
 }
