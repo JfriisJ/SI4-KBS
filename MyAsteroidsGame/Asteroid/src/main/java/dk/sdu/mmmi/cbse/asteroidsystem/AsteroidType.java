@@ -13,4 +13,6 @@ public enum AsteroidType {
     public String getSize() {
         return size;
     }
+
+
 }
