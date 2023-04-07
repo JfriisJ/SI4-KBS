@@ -75,10 +75,10 @@ public class Game implements ApplicationListener {
         entityProcessors.add(enemyProcess);
 
         // Add asteroid to the game
-        entityPlugins.add(asteroidPlugin);
-        entityProcessors.add(asteroidProcess);
-
-
+        for (int i = 0; i < 4; i++) {
+            entityPlugins.add(asteroidPlugin);
+            entityProcessors.add(asteroidProcess);
+        }
 
 
         // Lookup all Game Plugins using ServiceLoader
@@ -110,6 +110,7 @@ public class Game implements ApplicationListener {
         }
         for (IPostEntityProcessingService postEntityProcessorService : postEntityProcessors) {
             postEntityProcessorService.process(gameData, world);
+
         }
     }
 
@@ -132,9 +133,7 @@ public class Game implements ApplicationListener {
             float[] shapex = entity.getShapeX();
             float[] shapey = entity.getShapeY();
 
-            for (int i = 0, j = shapex.length - 1;
-                    i < shapex.length;
-                    j = i++) {
+            for (int i = 0, j = shapex.length - 1; i < shapex.length; j = i++) {
 
                 sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
             }
