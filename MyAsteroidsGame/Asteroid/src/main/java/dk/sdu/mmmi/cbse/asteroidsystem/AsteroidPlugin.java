@@ -12,10 +12,12 @@ import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.LARGE;
 
 public class AsteroidPlugin implements IGamePluginService {
     Entity asteroid;
+    AsteroidControlSystem asteroidControlSystem;
 
     @Override
     public void start(GameData gameData, World world) {
-        asteroid = createLargeAsteroid(gameData);
+        asteroidControlSystem = new AsteroidControlSystem();
+        asteroid = asteroidControlSystem.createAsteroid(gameData);
         world.addEntity(asteroid);
     }
 
@@ -24,19 +26,4 @@ public class AsteroidPlugin implements IGamePluginService {
 
     }
 
-    private Asteroid createLargeAsteroid(GameData gameData) {
-        float speed = (float) Math.random() * 10f + 40f;
-        float radians = 3.1415f / 2 + (float) Math.random();
-        float x = gameData.getDisplayWidth() / 2 + 100;
-        float y = gameData.getDisplayHeight() / 2 + 50;
-        Entity asteroid = new Asteroid(LARGE);
-
-        asteroid.add(new MovingPart(0, speed, speed, 0));
-        asteroid.add(new PositionPart(x, y, radians));
-        asteroid.add(new LifePart(6, 69));
-//        asteroid.add(new SplitterPart());
-        asteroid.setRadius(15);
-
-        return (Asteroid) asteroid;
-    }
 }
