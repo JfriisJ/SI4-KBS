@@ -3,11 +3,15 @@ package dk.sdu.mmmi.cbse.asteroidsystem;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.data.entityparts.SplitterPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import java.util.Random;
+
+import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.LARGE;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
 
@@ -38,6 +42,22 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         }
 
     }
+
+    public Entity createAsteroid(GameData gameData) {
+        float speed = (float) Math.random() * 10f + 40f;
+        float radians = 3.1415f / 2 + (float) Math.random();
+        float x = gameData.getDisplayWidth() / 2 + 100;
+        float y = gameData.getDisplayHeight() / 2 + 50;
+        Entity asteroid = new Asteroid(LARGE);
+
+        asteroid.add(new MovingPart(0, speed, speed, 0));
+        asteroid.add(new PositionPart(x, y, radians));
+        asteroid.add(new LifePart(6, 69));
+        asteroid.add(new SplitterPart());
+        asteroid.setRadius(15);
+
+        return asteroid;
+    }
     private void updateShape(Entity asteroid) {
 
         PositionPart positionPart = asteroid.getPart(PositionPart.class);
@@ -45,10 +65,13 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
 
+        asteroid.getShapeX();
+        asteroid.getShapeY();
+
         float[] shapex = new float[6];
         float[] shapey = new float[6];
         Asteroid asAsteroid = (Asteroid) asteroid;
-//        SplitterPart splitter = asAsteroid.getPart(SplitterPart.class);
+        SplitterPart splitter = asAsteroid.getPart(SplitterPart.class);
         if(asAsteroid.getSize().equals("LARGE")){
             for (int i = 0; i < numPoints; i++) {
                 shapex[i] = x + (float) Math.cos(angle + radians) * 26;
