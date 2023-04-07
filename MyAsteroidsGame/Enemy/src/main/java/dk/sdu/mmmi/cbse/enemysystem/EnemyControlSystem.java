@@ -3,26 +3,40 @@ package dk.sdu.mmmi.cbse.enemysystem;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+import java.awt.*;
+
 import static java.lang.Math.sqrt;
 
 public class EnemyControlSystem implements IEntityProcessingService {
+
+    LifePart lifePart;
+    int tickCounter = 0;
     @Override
     public void process(GameData gameData, World world) {
 
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             MovingPart movingPart = enemy.getPart(MovingPart.class);
+            lifePart = enemy.getPart(LifePart.class);
 
-            //Random direction of a enemy
-            if (Math.random() < 0.8){
-                movingPart.setLeft(Math.random() < 0.8);
-            }
-            if (Math.random() > 0.2){
-                movingPart.setRight(Math.random() > 0.2);
+            tickCounter += 1;
+
+            if (tickCounter > 30) {
+                //Random direction of a enemy
+                if (Math.random() < 0.8) {
+                    movingPart.setLeft(Math.random() < 0.8);
+                    tickCounter = 0;
+                }
+            }else if (tickCounter < 30) {
+                if (Math.random() > 0.2) {
+                    movingPart.setRight(Math.random() > 0.2);
+
+                }
             }
             movingPart.setUp(true);
 
@@ -33,6 +47,27 @@ public class EnemyControlSystem implements IEntityProcessingService {
         }
     }
 
+    public Entity createEnemy(GameData gameData) {
+        float deacceleration = 10;
+        float acceleration = 200;
+        float maxSpeed = 300;
+        float rotationSpeed = 5;
+        float x = ((float) gameData.getDisplayWidth() / 2) + 200;
+        float y = ((float) gameData.getDisplayHeight() / 2) + 200;
+        float radians = 3.1415f / 2;
+
+        lifePart = new LifePart();
+        lifePart.setLife(3);
+
+
+        Entity enemyShip = new Enemy();
+        enemyShip.add(new MovingPart(deacceleration, acceleration, maxSpeed, rotationSpeed));
+        enemyShip.add(new PositionPart(x, y, radians));
+        enemyShip.add(lifePart);
+
+        return enemyShip;
+    }
+
     private void updateShape(Entity entity) {
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
@@ -40,6 +75,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
         float x = positionPart.getX();
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
+
+
 
         shapex[0] = (float) (x + Math.cos(radians) * 8);
         shapey[0] = (float) (y + Math.sin(radians) * 8);
