@@ -28,6 +28,11 @@ import dk.sdu.mmmi.cbse.enemysystem.EnemyPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Game class is the main class for the game application. It creates a new game world and updates and draws the game world
+ * in each iteration of the main loop. The class also holds a list of entity processors and plugins that are used to process and update
+ * the entities in the game world.
+ */
 public class Game implements ApplicationListener {
 
     private static OrthographicCamera cam;
@@ -38,6 +43,9 @@ public class Game implements ApplicationListener {
     private List<IPostEntityProcessingService> postEntityProcessors = new ArrayList<>();
     private World world = new World();
 
+    /**
+     * Called when the game is first created. Initializes the game world, entity processors, and plugins.
+     */
     @Override
     public void create() {
 
@@ -54,29 +62,17 @@ public class Game implements ApplicationListener {
                 new GameInputProcessor(gameData)
         );
 
-        /**
-         * Add entities to the world
-         */
-
-        /**
-         * add player to the game
-         */
         IGamePluginService playerPlugin = new PlayerPlugin();
         IEntityProcessingService playerProcess = new PlayerControlSystem();
         entityPlugins.add(playerPlugin);
         entityProcessors.add(playerProcess);
 
-        /**
-         * add enemy to the game
-         */
         IGamePluginService enemyPlugin = new EnemyPlugin();
         IEntityProcessingService enemyProcess = new EnemyControlSystem();
         entityPlugins.add(enemyPlugin);
         entityProcessors.add(enemyProcess);
 
-        /**
-         * add asteroid to the game
-         */
+
         IGamePluginService asteroidPlugin = new AsteroidPlugin();
         IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
         for (int i = 0; i < 4; i++) {
@@ -84,26 +80,23 @@ public class Game implements ApplicationListener {
             entityProcessors.add(asteroidProcess);
         }
 
-        /**
-         * add bullet to the game
-         */
+
         IEntityProcessingService bulletProcess = new BulletControlSystem();
         entityProcessors.add(bulletProcess);
 
-        /**
-         * add collision to the game
-         */
+
         IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
         postEntityProcessors.add(collisionPostProcessor);
 
-        /**
-         * Start all the game plugins
-         */
+
         for (IGamePluginService iGamePlugin : entityPlugins) {
             iGamePlugin.start(gameData, this.world);
         }
     }
 
+    /**
+     * Called in each iteration of the main loop. Updates and draws the game world.
+     */
     @Override
     public void render() {
 
@@ -112,9 +105,6 @@ public class Game implements ApplicationListener {
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        /**
-         * add a bullet to the game from the shooter
-         */
         if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
             for (Entity shooter : this.world.getEntities(Player.class)) {
 
@@ -131,6 +121,9 @@ public class Game implements ApplicationListener {
         gameData.getKeys().update();
     }
 
+    /**
+     * Updates the game world by processing all entity processors and post-entity processors.
+     */
     private void update() {
         // Update
         for (IEntityProcessingService entityProcessorService : entityProcessors) {
@@ -142,6 +135,9 @@ public class Game implements ApplicationListener {
         }
     }
 
+    /**
+     * Draws the game world by drawing all entities in the world.
+     */
     private void draw() {
 
         for (Entity entity : world.getEntities()) {
