@@ -11,6 +11,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
 
+    AsteroidPlugin asteroidPlugin = new AsteroidPlugin();
     @Override
     public void process(GameData gameData, World world) {
 
@@ -24,11 +25,10 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             positionPart.process(gameData, asteroid);
 
             if (lifePart.isIsHit()){
-                lifePart.setIsHit(false);
                 lifePart.setLife(lifePart.getLife() - 1);
                 if (lifePart.getLife() == 2){
-                    AsteroidPlugin asteroidPlugin = new AsteroidPlugin();
-                    asteroidPlugin.setType(AsteroidType.valueOf("MEDIUM"));
+                    asteroidPlugin.asteroidsSplitter(1);
+                    asteroidPlugin.start(gameData, world);
                 }
                 if (lifePart.getLife() <= 0){
                     world.removeEntity(asteroid);
