@@ -49,11 +49,11 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
     public Entity createEnemy(GameData gameData) {
         float deacceleration = 10;
-        float acceleration = 200;
-        float maxSpeed = 300;
+        float acceleration = 50;
+        float maxSpeed = 150;
         float rotationSpeed = 5;
-        float x = ((float) gameData.getDisplayWidth() / 2) + 200;
-        float y = ((float) gameData.getDisplayHeight() / 2) + 200;
+        float x = (gameData.getDisplayWidth() / 2) + 200;
+        float y = (gameData.getDisplayHeight() / 2) + 200;
         float radians = 3.1415f / 2;
 
         lifePart = new LifePart(3,1);
