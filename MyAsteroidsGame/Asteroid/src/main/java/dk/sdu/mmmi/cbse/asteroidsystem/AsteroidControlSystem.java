@@ -9,8 +9,6 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-import java.util.Random;
-
 public class AsteroidControlSystem implements IEntityProcessingService {
 
     @Override
@@ -52,7 +50,6 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         float radians = positionPart.getRadians();
 
         float angle = 0;
-        float radius = asteroid.getRadius();
 
         float[] dists = asteroid.getDists();
 

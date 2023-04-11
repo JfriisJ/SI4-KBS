@@ -21,13 +21,6 @@ public class AsteroidPlugin implements IGamePluginService {
     public AsteroidPlugin() {
 
     }
-
-    public AsteroidPlugin(AsteroidType type) {
-        this.type = type;
-    }
-    public AsteroidType getType() {
-        return type;
-    }
     public void setType(AsteroidType type) {
         this.type = type;
     }

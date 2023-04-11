@@ -20,9 +20,6 @@ public class BulletPlugin implements IGamePluginService {
      * The shooter entity used to create the bullet.
      */
     Entity shooter;
-    public BulletPlugin() {
-
-    }
 
     public BulletPlugin(Entity shooter) {
         this.shooter = shooter;
@@ -33,8 +30,8 @@ public class BulletPlugin implements IGamePluginService {
     /**
      * Starts the plugin by adding the bullet entity to the game world.
      *
-     * @param GameData gameData The game data object.
-     * @param World world    The game world object.
+     * @param gameData The game data object.
+     * @param world    The game world object.
      */
     @Override
     public void start(GameData gameData, World world) {
@@ -46,7 +43,7 @@ public class BulletPlugin implements IGamePluginService {
     /**
      * Creates a new bullet entity based on the shooter entity's position.
      *
-     * @param GameData gameData The game data object.
+     * @param gameData The game data object.
      * @return The new bullet entity.
      */
     public Entity createBullet(GameData gameData) {
@@ -84,8 +81,8 @@ public class BulletPlugin implements IGamePluginService {
     /**
      * Stops the plugin by removing the bullet entity from the game world.
      *
-     * @param GameData gameData The game data object.
-     * @param World world The game world object.
+     * @param gameData The game data object.
+     * @param world The game world object.
      */
     @Override
     public void stop(GameData gameData, World world) {
