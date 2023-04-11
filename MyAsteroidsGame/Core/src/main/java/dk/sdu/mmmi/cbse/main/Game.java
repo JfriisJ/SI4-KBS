@@ -7,9 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidControlSystem;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidPlugin;
+import dk.sdu.mmmi.cbse.bulletsystem.BulletPlugin;
 import dk.sdu.mmmi.cbse.collisionsystem.CollisionDetectionSystem;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
+import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
@@ -95,6 +97,15 @@ public class Game implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
+
+        if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
+            for (Entity shooter : world.getEntities(Player.class)) {
+
+                IGamePluginService plugin = new BulletPlugin(shooter);
+                this.entityPlugins.add(plugin);
+                plugin.start(gameData, world);
+            }
+        }
 
         update();
 
