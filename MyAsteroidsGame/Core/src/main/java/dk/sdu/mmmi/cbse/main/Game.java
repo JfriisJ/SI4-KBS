@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidControlSystem;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidPlugin;
+import dk.sdu.mmmi.cbse.bulletsystem.BulletControlSystem;
 import dk.sdu.mmmi.cbse.bulletsystem.BulletPlugin;
 import dk.sdu.mmmi.cbse.collisionsystem.CollisionDetectionSystem;
 import dk.sdu.mmmi.cbse.common.data.Entity;
@@ -53,53 +54,69 @@ public class Game implements ApplicationListener {
                 new GameInputProcessor(gameData)
         );
 
+        /**
+         * Add entities to the world
+         */
 
-        //Add plugins to the game
+        /**
+         * add player to the game
+         */
         IGamePluginService playerPlugin = new PlayerPlugin();
-        IGamePluginService enemyPlugin = new EnemyPlugin();
-        IGamePluginService asteroidPlugin = new AsteroidPlugin();
-
-        //add processors to the game
         IEntityProcessingService playerProcess = new PlayerControlSystem();
-        IEntityProcessingService enemyProcess = new EnemyControlSystem();
-        IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
-
-        //add post processors to the game
-        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
-        postEntityProcessors.add(collisionPostProcessor);
-
-        // add player to the game
         entityPlugins.add(playerPlugin);
         entityProcessors.add(playerProcess);
 
-        // Add enemy to the game
+        /**
+         * add enemy to the game
+         */
+        IGamePluginService enemyPlugin = new EnemyPlugin();
+        IEntityProcessingService enemyProcess = new EnemyControlSystem();
         entityPlugins.add(enemyPlugin);
         entityProcessors.add(enemyProcess);
 
-        // Add asteroid to the game
+        /**
+         * add asteroid to the game
+         */
+        IGamePluginService asteroidPlugin = new AsteroidPlugin();
+        IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
         for (int i = 0; i < 4; i++) {
             entityPlugins.add(asteroidPlugin);
             entityProcessors.add(asteroidProcess);
         }
 
+        /**
+         * add bullet to the game
+         */
+        IEntityProcessingService bulletProcess = new BulletControlSystem();
+        entityProcessors.add(bulletProcess);
 
-        // Lookup all Game Plugins using ServiceLoader
+        /**
+         * add collision to the game
+         */
+        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
+        postEntityProcessors.add(collisionPostProcessor);
+
+        /**
+         * Start all the game plugins
+         */
         for (IGamePluginService iGamePlugin : entityPlugins) {
-            iGamePlugin.start(gameData, world);
+            iGamePlugin.start(gameData, this.world);
         }
     }
 
     @Override
     public void render() {
 
-        // clear screen to black
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
+        /**
+         * add a bullet to the game from the shooter
+         */
         if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
-            for (Entity shooter : world.getEntities(Player.class)) {
+            for (Entity shooter : this.world.getEntities(Player.class)) {
 
                 IGamePluginService plugin = new BulletPlugin(shooter);
                 this.entityPlugins.add(plugin);
