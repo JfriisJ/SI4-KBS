@@ -15,14 +15,20 @@ import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.SMALL;
 
 public class AsteroidPlugin implements IGamePluginService {
     private Entity asteroid;
-    private AsteroidType type;
+    private AsteroidType type = LARGE;
     private int numPoints;
 
     public AsteroidPlugin() {
-        this(LARGE);
+
     }
 
     public AsteroidPlugin(AsteroidType type) {
+        this.type = type;
+    }
+    public AsteroidType getType() {
+        return type;
+    }
+    public void setType(AsteroidType type) {
         this.type = type;
     }
 
@@ -38,7 +44,8 @@ public class AsteroidPlugin implements IGamePluginService {
 
     }
 
-    private Entity createAsteroid(GameData gameData) {
+    Entity createAsteroid(GameData gameData) {
+
         float deacceleration = 0;
         float acceleration = 200;
         float maxSpeed = 300;
@@ -47,7 +54,12 @@ public class AsteroidPlugin implements IGamePluginService {
         float y = MathUtils.random( gameData.getDisplayHeight());
         float radians = MathUtils.random(2 * 3.1415f);
 
+        if (type == null) {
+            type = LARGE;
+        }
+
         Entity asteroid = new Asteroid(type);
+
         if (type == LARGE) {
             numPoints = 12;
             asteroid.setRadius(15);
@@ -77,4 +89,5 @@ public class AsteroidPlugin implements IGamePluginService {
 
         return asteroid;
     }
+
 }
