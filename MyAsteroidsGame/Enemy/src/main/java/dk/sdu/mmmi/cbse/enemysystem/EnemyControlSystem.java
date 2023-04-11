@@ -56,8 +56,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         float y = ((float) gameData.getDisplayHeight() / 2) + 200;
         float radians = 3.1415f / 2;
 
-        lifePart = new LifePart();
-        lifePart.setLife(3);
+        lifePart = new LifePart(3,1);
 
 
         Entity enemyShip = new Enemy();
