@@ -20,10 +20,15 @@ public class BulletPlugin implements IGamePluginService {
      * The shooter entity used to create the bullet.
      */
     Entity shooter;
+    public BulletPlugin() {
+
+    }
 
     public BulletPlugin(Entity shooter) {
         this.shooter = shooter;
     }
+
+
 
     /**
      * Starts the plugin by adding the bullet entity to the game world.
@@ -64,7 +69,7 @@ public class BulletPlugin implements IGamePluginService {
         float x = bx + shooterPositionPart.getX();
         float y = by + shooterPositionPart.getY();
 
-        float shootSpeed = 350 + shooterMovingPart.getSpeed();
+        float shootSpeed = maxSpeed + shooterMovingPart.getSpeed();
 
         bullet.setShapeX(new float[4]);
         bullet.setShapeY(new float[4]);
