@@ -71,7 +71,7 @@ public class AsteroidPlugin implements IGamePluginService {
 
         float[] dists = new float[numPoints];
         for (int i = 0; i < numPoints; i++) {
-            dists[i] = MathUtils.random(asteroid.getRadius() / 2, asteroid.getRadius() * 2);
+            dists[i] = MathUtils.random(asteroid.getRadius() / 2, asteroid.getRadius());
         }
         asteroid.setDists(dists);
 
