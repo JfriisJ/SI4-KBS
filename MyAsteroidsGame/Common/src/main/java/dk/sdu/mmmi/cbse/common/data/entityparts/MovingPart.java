@@ -5,11 +5,9 @@
  */
 package dk.sdu.mmmi.cbse.common.data.entityparts;
 
+import com.badlogic.gdx.math.MathUtils;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
-import static dk.sdu.mmmi.cbse.common.data.GameKeys.LEFT;
-import static dk.sdu.mmmi.cbse.common.data.GameKeys.RIGHT;
-import static dk.sdu.mmmi.cbse.common.data.GameKeys.UP;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
@@ -23,14 +21,23 @@ public class MovingPart
 
     private float dx, dy;
     private float deceleration, acceleration;
-    private float maxSpeed, rotationSpeed;
-    private boolean left, right, up;
+    private float maxSpeed, rotationSpeed, speed;
+    private boolean left, right, up, startingSpeedSet;
 
     public MovingPart(float deceleration, float acceleration, float maxSpeed, float rotationSpeed) {
         this.deceleration = deceleration;
         this.acceleration = acceleration;
         this.maxSpeed = maxSpeed;
         this.rotationSpeed = rotationSpeed;
+    }
+
+    public MovingPart(float deacceleration, float acceleration, float maxSpeed, float rotationSpeed, float speed) {
+        this.deceleration = deacceleration;
+        this.acceleration = acceleration;
+        this.maxSpeed = maxSpeed;
+        this.rotationSpeed = rotationSpeed;
+        this.speed = speed;
+        this.startingSpeedSet = !(this.speed > 0);
     }
 
     public void setDeceleration(float deceleration) {
@@ -61,6 +68,11 @@ public class MovingPart
         this.up = up;
     }
 
+    public float getSpeed() {
+        this.speed = (float) Math.sqrt(dx * dx + dy * dy);
+        return this.speed;
+    }
+
     @Override
     public void process(GameData gameData, Entity entity) {
         PositionPart positionPart = entity.getPart(PositionPart.class);
@@ -68,6 +80,12 @@ public class MovingPart
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
         float dt = gameData.getDelta();
+
+        if (!this.startingSpeedSet){
+            dx = MathUtils.cos(radians) * speed;
+            dy = MathUtils.sin(radians) * speed;
+            this.startingSpeedSet = true;
+        }
 
         // turning
         if (left) {
@@ -117,5 +135,6 @@ public class MovingPart
 
         positionPart.setRadians(radians);
     }
+
 
 }
