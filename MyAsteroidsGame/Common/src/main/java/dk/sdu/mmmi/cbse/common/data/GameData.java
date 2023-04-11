@@ -8,8 +8,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class GameData {
 
     private float delta;
-    private int displayWidth;
-    private int displayHeight;
+    private float displayWidth;
+    private float displayHeight;
     private final GameKeys keys = new GameKeys();
     private List<Event> events = new CopyOnWriteArrayList<>();
 
@@ -37,19 +37,19 @@ public class GameData {
         return delta;
     }
 
-    public void setDisplayWidth(int width) {
+    public void setDisplayWidth(float width) {
         this.displayWidth = width;
     }
 
-    public int getDisplayWidth() {
+    public float getDisplayWidth() {
         return displayWidth;
     }
 
-    public void setDisplayHeight(int height) {
+    public void setDisplayHeight(float height) {
         this.displayHeight = height;
     }
 
-    public int getDisplayHeight() {
+    public float getDisplayHeight() {
         return displayHeight;
     }
 
