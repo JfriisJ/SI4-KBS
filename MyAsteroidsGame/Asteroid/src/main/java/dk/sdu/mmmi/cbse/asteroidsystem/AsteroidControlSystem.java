@@ -24,6 +24,20 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             movingPart.setUp(true);
             movingPart.process(gameData, asteroid);
             positionPart.process(gameData, asteroid);
+
+            if (lifePart.isIsHit()){
+                lifePart.setIsHit(false);
+                lifePart.setLife(lifePart.getLife() - 1);
+                if (lifePart.getLife() == 2){
+                    AsteroidPlugin asteroidPlugin = new AsteroidPlugin();
+                    asteroidPlugin.setType(AsteroidType.valueOf("MEDIUM"));
+                }
+                if (lifePart.getLife() <= 0){
+                    world.removeEntity(asteroid);
+                }
+
+            }
+
             updateShape(asteroid);
 
         }
