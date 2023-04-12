@@ -10,10 +10,19 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import static java.lang.Math.sqrt;
 
+/**
+ * EnemyControlSystem is a system that controls the enemy.
+ */
 public class EnemyControlSystem implements IEntityProcessingService {
 
     LifePart lifePart;
     int tickCounter = 0;
+    /**
+     * Updates the position, Life and movement of the enemy.
+     *
+     * @param gameData
+     * @param world
+     */
     @Override
     public void process(GameData gameData, World world) {
 
@@ -26,17 +35,21 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             if (tickCounter > 30) {
                 //Random direction of a enemy
-                if (Math.random() < 0.8) {
+                if (Math.random() > 0.8) {
                     movingPart.setLeft(Math.random() < 0.8);
                     tickCounter = 0;
                 }
             }else if (tickCounter < 30) {
-                if (Math.random() > 0.2) {
+                if (Math.random() < 0.2) {
                     movingPart.setRight(Math.random() > 0.2);
 
                 }
             }
             movingPart.setUp(true);
+
+            if (lifePart.isIsHit()){
+                world.removeEntity(enemy);
+            }
 
             movingPart.process(gameData, enemy);
             positionPart.process(gameData, enemy);
@@ -45,26 +58,11 @@ public class EnemyControlSystem implements IEntityProcessingService {
         }
     }
 
-    public Entity createEnemy(GameData gameData) {
-        float deacceleration = 10;
-        float acceleration = 50;
-        float maxSpeed = 150;
-        float rotationSpeed = 5;
-        float x = (gameData.getDisplayWidth() / 2) + 200;
-        float y = (gameData.getDisplayHeight() / 2) + 200;
-        float radians = 3.1415f / 2;
-
-        lifePart = new LifePart(3,1);
-
-
-        Entity enemyShip = new Enemy();
-        enemyShip.add(new MovingPart(deacceleration, acceleration, maxSpeed, rotationSpeed));
-        enemyShip.add(new PositionPart(x, y, radians));
-        enemyShip.add(lifePart);
-
-        return enemyShip;
-    }
-
+    /**
+     * Updates the shape of the enemy.
+     *
+     * @param entity
+     */
     private void updateShape(Entity entity) {
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
@@ -87,9 +85,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         shapex[3] = (float) (x + Math.cos(radians + 4 * 3.1415f / 5) * 8);
         shapey[3] = (float) (y + Math.sin(radians + 4 * 3.1415f / 5) * 8);
 
-        //set the radius of the enemy
         entity.setRadius((float) sqrt(8 * 8 + 8 * 8));
-
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);
     }

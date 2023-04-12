@@ -16,7 +16,7 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 public class AsteroidControlSystem implements IEntityProcessingService {
 
     /**
-     * Updates the position of the asteroids.
+     * Updates the position, Life and movement of the asteroids.
      * @param gameData
      * @param world
      */
