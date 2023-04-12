@@ -50,7 +50,7 @@ public class BulletPlugin implements IGamePluginService {
 
         float deacceleration = 0;
         float acceleration = 0;
-        float maxSpeed = 350;
+        float maxSpeed = 550;
         float rotationSpeed = 0;
         float radians = shooterPositionPart.getRadians();
 
