@@ -10,7 +10,16 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
+/**
+ * AsteroidControlSystem is responsible for updating the position of the asteroids.
+ */
 public class AsteroidControlSystem implements IEntityProcessingService {
+
+    /**
+     * Updates the position of the asteroids.
+     * @param gameData
+     * @param world
+     */
     @Override
     public void process(GameData gameData, World world) {
 
@@ -42,6 +51,10 @@ public class AsteroidControlSystem implements IEntityProcessingService {
         }
     }
 
+    /**
+     * Updates the shape of the asteroid.
+     * @param entity
+     */
     private void updateShape(Entity entity) {
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
