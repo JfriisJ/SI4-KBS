@@ -65,7 +65,7 @@ public class Game implements ApplicationListener {
         addPlayer();
 
         // Create and add the enemy to the world
-        addEnemies(0);
+        addEnemies(1);
 
         // Create and add the asteroids to the world
         addAsteroids(4);
