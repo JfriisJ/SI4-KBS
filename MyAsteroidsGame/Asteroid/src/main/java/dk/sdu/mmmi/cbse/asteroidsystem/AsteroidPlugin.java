@@ -24,8 +24,6 @@ public class AsteroidPlugin implements IGamePluginService {
 
     private int numPoints; // Contains the number of points an asteroid exists of.
 
-    private int type;
-
     private int life;
 
     public AsteroidPlugin() {
