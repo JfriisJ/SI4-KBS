@@ -131,7 +131,13 @@ public class Game implements ApplicationListener {
 
         if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
             for (Entity shooter : this.world.getEntities(Player.class)) {
-
+                IGamePluginService plugin = new BulletPlugin(shooter);
+                this.entityPlugins.add(plugin);
+                plugin.start(gameData, world);
+            }
+        }
+        if (Math.random() < 0.05){
+            for (Entity shooter : this.world.getEntities(Enemy.class)) {
                 IGamePluginService plugin = new BulletPlugin(shooter);
                 this.entityPlugins.add(plugin);
                 plugin.start(gameData, world);
