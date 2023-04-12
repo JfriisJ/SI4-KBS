@@ -9,88 +9,118 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
-import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.LARGE;
-import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.MEDIUM;
-import static dk.sdu.mmmi.cbse.asteroidsystem.AsteroidType.SMALL;
-
+/**
+ * AsteroidPlugin is responsible for starting and stopping the asteroids.
+ */
 public class AsteroidPlugin implements IGamePluginService {
     private Entity asteroid;
-    private int type = 2;
     public static final int SMALL = 0;
     public static final int MEDIUM = 1;
     public static final int LARGE = 2;
-    private int numPoints;
+
+    // Start Positions
+    private float x = -1;
+    private float y = -1;
+
+    private int numPoints; // Contains the number of points an asteroid exists of.
+
+    private int type;
+
+    private int life;
 
     public AsteroidPlugin() {
-
-    }
-    public void setType(int type){
-        this.type = type;
+        this.life = 3;
     }
 
-    public int getType() {
-        return type;
+    /**
+     * AsteroidPlugin constructor is used for already created asteroid
+     * to define the position and life of the split asteroid
+     * @param asteroid
+     */
+    public AsteroidPlugin(Entity asteroid) {
+        PositionPart positionPart = asteroid.getPart(PositionPart.class);
+        LifePart lifePart = asteroid.getPart(LifePart.class);
+        this.life = lifePart.getLife()-1;
+
+        this.x = positionPart.getX();
+        this.y = positionPart.getY();
     }
 
+    /**
+     * Start is responsible for adding the asteroid entity into the world
+     * @param gameData
+     * @param world
+     */
     @Override
     public void start(GameData gameData, World world) {
-        asteroid = createAsteroid(gameData, this.type);
-        world.addEntity(asteroid);
+        if (this.x == -1 || this.y == -1) {
+            this.x = MathUtils.random(gameData.getDisplayWidth());
+            this.y = MathUtils.random(gameData.getDisplayHeight());
+        }
+
+        // Add entities to the world
+        this.asteroid = createAsteroid(gameData);
+        world.addEntity(this.asteroid);
     }
 
-    @Override
-    public void stop(GameData gameData, World world) {
-        world.removeEntity(asteroid);
-
-    }
-
-    public Entity createAsteroid(GameData gameData, int type) {
-
-        System.out.println(this.type);
-        this.type = type;
-
-        float deacceleration = 0;
-        float acceleration = 200;
-        float maxSpeed = 300;
-        float rotationSpeed = 0.5f;
-        float x = MathUtils.random(gameData.getDisplayWidth());
-        float y = MathUtils.random( gameData.getDisplayHeight());
-        float radians = MathUtils.random(2 * 3.1415f);
+    /**
+     * createAsteroid is responsible for creating the asteroid before it can be added to the world
+     * @param gameData
+     * @return
+     */
+    private Entity createAsteroid(GameData gameData) {
+        float deceleration = 10;
+        float acceleration = 100;
+        float maxSpeed = 0;
+        float rotationSpeed = 0;
+        float radians = MathUtils.random(MathUtils.PI2);
 
         Entity asteroid = new Asteroid();
 
-        if (type == LARGE) {
-            numPoints = 12;
+        if (this.life == 3) {
+            //System.out.println("Large Generated");
             asteroid.setRadius(15);
-            maxSpeed= MathUtils.random(10, 30);
-        } else if (type == MEDIUM) {
-            numPoints = 10;
+            this.numPoints = 12;
+            maxSpeed = MathUtils.random(20,30);
+        } else if (this.life == 2) {
+            //System.out.println("Medium Generated");
             asteroid.setRadius(10);
-            maxSpeed= MathUtils.random(25, 35);
-        } else if (type == SMALL) {
-            numPoints = 8;
+            this.numPoints=10;
+            maxSpeed = MathUtils.random(50,60);
+        } else { // SMALL
+            //System.out.println("Small Generated");
             asteroid.setRadius(5);
-            maxSpeed= MathUtils.random(10, 11);
+            this.numPoints=8;
+            maxSpeed = MathUtils.random(70,100);
         }
 
-        asteroid.setShapeX(new float[numPoints]);
-        asteroid.setShapeY(new float[numPoints]);
 
-        asteroid.add(new MovingPart(deacceleration, acceleration, maxSpeed, rotationSpeed));
-        asteroid.add(new PositionPart(x, y, radians));
-        asteroid.add(new LifePart(1,0));
+        asteroid.setShapeX(new float[this.numPoints]);
+        asteroid.setShapeY(new float[this.numPoints]);
 
-        float[] dists = new float[numPoints];
-        for (int i = 0; i < numPoints; i++) {
-            dists[i] = MathUtils.random(asteroid.getRadius() / 2, asteroid.getRadius());
+        asteroid.add(new MovingPart(deceleration, acceleration, maxSpeed, rotationSpeed));
+        asteroid.add(new PositionPart(this.x, this.y, radians));
+        asteroid.add(new LifePart(this.life,0));
+
+        float[] dists = new float[this.numPoints];
+        for (int i = 0; i < this.numPoints; i++) {
+            dists[i] = MathUtils.random(asteroid.getRadius()/2, asteroid.getRadius());
         }
+
         asteroid.setDists(dists);
 
         return asteroid;
+
     }
 
-    public void asteroidsSplitter(int type){
-        this.type = type;
+    /**
+     * Stop is responsible for removing the asteroid entity into the world
+     * @param gameData
+     * @param world
+     */
+    @Override
+    public void stop(GameData gameData, World world) {
+        world.removeEntity(this.asteroid);
     }
-
 }
+
