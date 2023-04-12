@@ -58,39 +58,63 @@ public class Game implements ApplicationListener {
 
         sr = new ShapeRenderer();
 
-        Gdx.input.setInputProcessor(
-                new GameInputProcessor(gameData)
-        );
+        Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
 
+
+        // Create and add the player to the world
+        addPlayer();
+
+        // Create and add the enemy to the world
+        addEnemies(0);
+
+        // Create and add the asteroids to the world
+        addAsteroids(4);
+
+        // Create and add the bullets to the world
+        IEntityProcessingService bulletProcess = new BulletControlSystem();
+        entityProcessors.add(bulletProcess);
+
+        // Create and add the collision detection system to the world
+        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
+        postEntityProcessors.add(collisionPostProcessor);
+
+        // Start all the plugins
+        for (IGamePluginService iGamePlugin : entityPlugins) {
+            iGamePlugin.start(gameData, this.world);
+        }
+    }
+
+    /**
+     * Add the player to the game world.
+     */
+    private void addPlayer() {
         IGamePluginService playerPlugin = new PlayerPlugin();
         IEntityProcessingService playerProcess = new PlayerControlSystem();
         entityPlugins.add(playerPlugin);
         entityProcessors.add(playerProcess);
+    }
 
-        IGamePluginService enemyPlugin = new EnemyPlugin();
-        IEntityProcessingService enemyProcess = new EnemyControlSystem();
-        entityPlugins.add(enemyPlugin);
-        entityProcessors.add(enemyProcess);
-
-
-        IGamePluginService asteroidPlugin = new AsteroidPlugin();
-        IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
-        for (int i = 0; i < 4; i++) {
+    /**
+     * Adds the asteroids to the game world.
+     */
+    public void addAsteroids(int amount) {
+        for (int i = 0; i < amount; i++) {
+            IGamePluginService asteroidPlugin = new AsteroidPlugin();
+            IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
             entityPlugins.add(asteroidPlugin);
             entityProcessors.add(asteroidProcess);
         }
+    }
 
-
-        IEntityProcessingService bulletProcess = new BulletControlSystem();
-        entityProcessors.add(bulletProcess);
-
-
-        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
-        postEntityProcessors.add(collisionPostProcessor);
-
-
-        for (IGamePluginService iGamePlugin : entityPlugins) {
-            iGamePlugin.start(gameData, this.world);
+    /**
+     * Adds the enemies to the game world.
+     */
+    public void addEnemies(int amount) {
+        for (int i = 0; i < amount; i++) {
+            IGamePluginService enemyPlugin = new EnemyPlugin();
+            IEntityProcessingService enemyProcess = new EnemyControlSystem();
+            entityPlugins.add(enemyPlugin);
+            entityProcessors.add(enemyProcess);
         }
     }
 
