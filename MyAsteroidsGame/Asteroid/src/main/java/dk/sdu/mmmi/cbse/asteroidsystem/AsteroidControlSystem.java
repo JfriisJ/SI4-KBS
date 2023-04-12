@@ -8,10 +8,9 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
 public class AsteroidControlSystem implements IEntityProcessingService {
-
-    AsteroidPlugin asteroidPlugin = new AsteroidPlugin();
     @Override
     public void process(GameData gameData, World world) {
 
@@ -21,46 +20,52 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             LifePart lifePart = asteroid.getPart(LifePart.class);
 
             movingPart.setUp(true);
+
             movingPart.process(gameData, asteroid);
             positionPart.process(gameData, asteroid);
 
-            if (lifePart.isIsHit()){
-                lifePart.setLife(lifePart.getLife() - 1);
-                if (lifePart.getLife() == 2){
-                    asteroidPlugin.asteroidsSplitter(1);
-                    asteroidPlugin.start(gameData, world);
-                }
-                if (lifePart.getLife() <= 0){
-                    world.removeEntity(asteroid);
+            if (lifePart.isIsHit()) {
+                // Remove asteroids from world
+                world.removeEntity(asteroid);
+
+                // Check if the asteroid which were killed, has a life of 1, which means the smallest, if not, spawn 2 new asteroids.
+                if (lifePart.getLife() != 1 ) {
+                    for (int i = 0; i < 2; i++) {
+                        IGamePluginService asteroidPlugin = new AsteroidPlugin(asteroid);
+                        asteroidPlugin.start(gameData, world);
+                    }
                 }
 
             }
 
             updateShape(asteroid);
-
         }
-
     }
-    private void updateShape(Entity asteroid) {
-        float[] shapex = asteroid.getShapeX();
-        float[] shapey = asteroid.getShapeY();
-        PositionPart positionPart = asteroid.getPart(PositionPart.class);
+
+    private void updateShape(Entity entity) {
+        float[] shapex = entity.getShapeX();
+        float[] shapey = entity.getShapeY();
+
+        PositionPart positionPart = entity.getPart(PositionPart.class);
+
         float x = positionPart.getX();
         float y = positionPart.getY();
+
         float radians = positionPart.getRadians();
 
         float angle = 0;
+        float radius = entity.getRadius();
 
-        float[] dists = asteroid.getDists();
+        float[] dists = entity.getDists();
 
-        for (int i = 0; i < dists.length; i++) {
+        for (int i=0; i < shapex.length ; i++) {
             shapex[i] = x + MathUtils.cos(angle + radians) * dists[i];
             shapey[i] = y + MathUtils.sin(angle + radians) * dists[i];
+
             angle += MathUtils.PI2 / shapex.length;
         }
 
-        asteroid.setShapeX(shapex);
-        asteroid.setShapeY(shapey);
-
+        entity.setShapeX(shapex);
+        entity.setShapeY(shapey);
     }
 }
