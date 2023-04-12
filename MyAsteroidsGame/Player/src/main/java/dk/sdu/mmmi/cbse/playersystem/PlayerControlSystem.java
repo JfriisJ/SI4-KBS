@@ -28,15 +28,16 @@ public class PlayerControlSystem implements IEntityProcessingService {
             LifePart lifePart = player.getPart(LifePart.class);
             ShootingPart shootingPart = player.getPart(ShootingPart.class);
 
+            movingPart.process(gameData, player);
+            positionPart.process(gameData, player);
+            lifePart.process(gameData, player);
+            shootingPart.process(gameData, player);
+
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP));
 
             shootingPart.setShooting(gameData.getKeys().isDown(SPACE));
-
-            movingPart.process(gameData, player);
-            positionPart.process(gameData, player);
-            lifePart.process(gameData, player);
 
             if (lifePart.isIsHit()){
                 lifePart.setIsHit(false);
@@ -47,7 +48,7 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 }
 
             }
-            
+
             updateShape(player);
         }
     }

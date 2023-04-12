@@ -35,6 +35,10 @@ public class EnemyControlSystem implements IEntityProcessingService {
             ShootingPart shootingPart = enemy.getPart(ShootingPart.class);
             lifePart = enemy.getPart(LifePart.class);
 
+            shootingPart.process(gameData, enemy);
+            movingPart.process(gameData, enemy);
+            positionPart.process(gameData, enemy);
+
             tickCounter += 1;
 
             if (tickCounter > 30) {
@@ -61,11 +65,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             }
 
+
             shootingPart.setShooting(MathUtils.random(0f,1f) > 0.99f);
-
-            movingPart.process(gameData, enemy);
-            positionPart.process(gameData, enemy);
-
             updateShape(enemy);
         }
     }
