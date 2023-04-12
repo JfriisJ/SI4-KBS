@@ -25,8 +25,6 @@ public class BulletPlugin implements IGamePluginService {
         this.shooter = shooter;
     }
 
-
-
     /**
      * Starts the plugin by adding the bullet entity to the game world.
      *
