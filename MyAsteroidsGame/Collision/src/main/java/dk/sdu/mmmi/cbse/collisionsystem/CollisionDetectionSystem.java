@@ -59,6 +59,11 @@ public class CollisionDetectionSystem implements IPostEntityProcessingService {
                             lifePart2.setIsHit(true);
                             // Bullet collided with enemy
 
+                        } else if (entity1.isType(Bullet.class) && entity2.isType(Player.class)) {
+                            lifePart1.setIsHit(true);
+                            lifePart2.setIsHit(true);
+                            // Bullet collided with enemy
+
                         }
                     }
                 }
