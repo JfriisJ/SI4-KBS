@@ -10,7 +10,6 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
-import static java.lang.Math.random;
 import static java.lang.Math.sqrt;
 
 /**
