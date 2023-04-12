@@ -14,6 +14,7 @@ import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
 import dk.sdu.mmmi.cbse.common.data.World;
+import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
@@ -129,20 +130,20 @@ public class Game implements ApplicationListener {
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
-            for (Entity shooter : this.world.getEntities(Player.class)) {
-                IGamePluginService plugin = new BulletPlugin(shooter);
-                this.entityPlugins.add(plugin);
-                plugin.start(gameData, world);
-            }
-        }
-        if (Math.random() < 0.05){
-            for (Entity shooter : this.world.getEntities(Enemy.class)) {
-                IGamePluginService plugin = new BulletPlugin(shooter);
-                this.entityPlugins.add(plugin);
-                plugin.start(gameData, world);
-            }
-        }
+//        if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
+//            for (Entity shooter : this.world.getEntities(Player.class)) {
+//                IGamePluginService plugin = new BulletPlugin(shooter);
+//                this.entityPlugins.add(plugin);
+//                plugin.start(gameData, world);
+//            }
+//        }
+//        if (Math.random() < 0.05){
+//            for (Entity shooter : this.world.getEntities(Enemy.class)) {
+//                IGamePluginService plugin = new BulletPlugin(shooter);
+//                this.entityPlugins.add(plugin);
+//                plugin.start(gameData, world);
+//            }
+//        }
 
         update();
 
@@ -155,6 +156,22 @@ public class Game implements ApplicationListener {
      * Updates the game world by processing all entity processors and post-entity processors.
      */
     private void update() {
+
+            for (Entity entity : world.getEntities()) {
+            try {
+                ShootingPart shootingPart = entity.getPart(ShootingPart.class);
+                if (shootingPart.getShooting()) {
+                    IGamePluginService bulletPlugin = new BulletPlugin(entity);
+                    this.entityPlugins.add(bulletPlugin);
+                    bulletPlugin.start(gameData, world);
+                }
+            }
+            catch (NullPointerException error) {
+            }
+
+        }
+
+
         // Update
         for (IEntityProcessingService entityProcessorService : entityProcessors) {
             entityProcessorService.process(gameData, world);

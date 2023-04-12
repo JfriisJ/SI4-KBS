@@ -1,11 +1,13 @@
 package dk.sdu.mmmi.cbse.enemysystem;
 
+import com.badlogic.gdx.math.MathUtils;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
+import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
 import static java.lang.Math.random;
@@ -30,6 +32,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             MovingPart movingPart = enemy.getPart(MovingPart.class);
+            ShootingPart shootingPart = enemy.getPart(ShootingPart.class);
             lifePart = enemy.getPart(LifePart.class);
 
             tickCounter += 1;
@@ -58,6 +61,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 
             }
 
+            shootingPart.setShooting(MathUtils.random(0f,1f) > 0.99f);
 
             movingPart.process(gameData, enemy);
             positionPart.process(gameData, enemy);
