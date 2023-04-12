@@ -157,7 +157,7 @@ public class Game implements ApplicationListener {
      */
     private void update() {
 
-            for (Entity entity : world.getEntities()) {
+        for (Entity entity : world.getEntities()) {
             try {
                 ShootingPart shootingPart = entity.getPart(ShootingPart.class);
                 if (shootingPart.getShooting()) {
@@ -168,7 +168,6 @@ public class Game implements ApplicationListener {
             }
             catch (NullPointerException error) {
             }
-
         }
 
 
