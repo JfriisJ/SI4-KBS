@@ -43,13 +43,13 @@ public class CollisionDetectionSystem implements IPostEntityProcessingService {
                         if (entity1.isType(Player.class) && entity2.isType(Asteroid.class)) {
                             // Player collided with asteroid
                             lifePart1.setIsHit(true);
-                            lifePart2.setIsHit(true);
                         } else if (entity1.isType(Player.class) && entity2.isType(Enemy.class)) {
                             lifePart1.setIsHit(true);
                             lifePart2.setIsHit(true);
                             // Player collided with enemy
                         } else if (entity1.isType(Asteroid.class) && entity2.isType(Enemy.class)) {
                             // Asteroid collided with enemy
+                            lifePart2.setIsHit(true);
                         } else if (entity1.isType(Bullet.class) && entity2.isType(Asteroid.class)) {
                             lifePart1.setIsHit(true);
                             lifePart2.setIsHit(true);
