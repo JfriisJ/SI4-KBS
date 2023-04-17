@@ -1,0 +1,12 @@
+@startuml
+title Enemies spawn on the game map and move towards the player's spaceship
+
+actor Enemy
+participant GameMap
+participant MapService
+
+Enemy -> GameMap : Generate enemies
+GameMap -> MapService : Determine player's current position
+Enemy -> MapService : Move towards player's current position
+GameMap -> Enemy : Move towards player's spaceship
+@enduml

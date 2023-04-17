@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+rectangle "Player" {
+    [PlayerService]
+}
+rectangle "Enemy" {
+    [EnemyService]
+}
+rectangle "Weapon" {
+    [WeaponService]
+}
+rectangle "Map" {
+    [MapService]
+}
+(Player) --> (PlayerService)
+(Enemy) --> (EnemyService)
+(Weapon) --> (WeaponService)
+(Map) --> (MapService)
+(Player) --> (WeaponService)
+(Enemy) --> (WeaponService)
+(Map) --> (EnemyService)
+(Map) -> (PlayerService)
+@enduml
