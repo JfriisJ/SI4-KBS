@@ -28,10 +28,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.badlogicgames.gdx</groupId>
-            <artifactId>gdx</artifactId>
-            <version>1.11.0</version>
-            <scope>compile</scope>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>CommonAsteroids</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 
