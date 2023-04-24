@@ -10,6 +10,8 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+import java.util.Random;
+
 import static java.lang.Math.sqrt;
 
 /**
@@ -17,7 +19,9 @@ import static java.lang.Math.sqrt;
  */
 public class EnemyControlSystem implements IEntityProcessingService {
 
-    LifePart lifePart;
+    private Entity enemy;
+
+//    LifePart lifePart;
     int tickCounter = 0;
     /**
      * Updates the position, Life and movement of the enemy.
@@ -32,11 +36,8 @@ public class EnemyControlSystem implements IEntityProcessingService {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             MovingPart movingPart = enemy.getPart(MovingPart.class);
             ShootingPart shootingPart = enemy.getPart(ShootingPart.class);
-            lifePart = enemy.getPart(LifePart.class);
+            LifePart lifePart = enemy.getPart(LifePart.class);
 
-            shootingPart.process(gameData, enemy);
-            movingPart.process(gameData, enemy);
-            positionPart.process(gameData, enemy);
 
             tickCounter += 1;
 
@@ -46,26 +47,38 @@ public class EnemyControlSystem implements IEntityProcessingService {
                     movingPart.setLeft(Math.random() < 0.8);
                     tickCounter = 0;
                 }
-            }else if (tickCounter < 30) {
+            }
+            if (tickCounter < 30) {
                 if (Math.random() < 0.2) {
                     movingPart.setRight(Math.random() > 0.2);
 
                 }
             }
-            movingPart.setUp(true);
-
-            if (lifePart.isIsHit()){
-                lifePart.setIsHit(false);
-                lifePart.setLife(lifePart.getLife() - 1);
-//                System.out.println("Enemy hit! Life: " + lifePart.getLife());
-                if (lifePart.getLife() < 0){
-                    world.removeEntity(enemy);
-                }
-
+            if (tickCounter < 30) {
+                movingPart.setUp(true);
+                tickCounter = 0;
             }
 
 
+
+//            if (lifePart.isIsHit()){
+//                lifePart.setIsHit(false);
+//                lifePart.setLife(lifePart.getLife() - 1);
+////                System.out.println("Enemy hit! Life: " + lifePart.getLife());
+//                if (lifePart.getLife() < 0){
+//                    world.removeEntity(enemy);
+//                }
+//
+//            }
+
             shootingPart.setShooting(MathUtils.random(0f,1f) > 0.99f);
+
+            shootingPart.process(gameData, enemy);
+            movingPart.process(gameData, enemy);
+            positionPart.process(gameData, enemy);
+            lifePart.process(gameData, enemy);
+
+
             updateShape(enemy);
         }
     }
