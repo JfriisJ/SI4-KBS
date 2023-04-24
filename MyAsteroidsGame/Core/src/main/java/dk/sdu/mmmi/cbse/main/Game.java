@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidControlSystem;
+import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidProcessingService;
 import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidPlugin;
 import dk.sdu.mmmi.cbse.bulletsystem.BulletPlugin;
 import dk.sdu.mmmi.cbse.common.data.Entity;
@@ -105,7 +105,7 @@ public class Game implements ApplicationListener {
     public void addAsteroids(int amount) {
         for (int i = 0; i < amount; i++) {
             IGamePluginService asteroidPlugin = new AsteroidPlugin();
-            IEntityProcessingService asteroidProcess = new AsteroidControlSystem();
+            IEntityProcessingService asteroidProcess = new AsteroidProcessingService();
             entityPlugins.add(asteroidPlugin);
             entityProcessors.add(asteroidProcess);
         }
