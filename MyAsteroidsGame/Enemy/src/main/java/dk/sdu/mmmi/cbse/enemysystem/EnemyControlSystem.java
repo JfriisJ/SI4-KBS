@@ -54,11 +54,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
             }
             movingPart.setUp(true);
 
-            if (MathUtils.random(0f,1f) > 0.99f){
-                shootingPart.setShooting(true);
-            }else {
-                shootingPart.setShooting(false);
-            }
+            shootingPart.setShooting(MathUtils.random(0f, 1f) > 0.99f);
 
             if (shootingPart.getShooting()){
                 for (IBulletCreateService bullet : SPILocator.locateAll(IBulletCreateService.class)) {

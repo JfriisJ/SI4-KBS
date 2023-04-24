@@ -61,10 +61,7 @@ public class CollisionDetectionSystem implements IPostEntityProcessingService {
         float dx = entMov.getX() - entMov2.getX();
         float dy = entMov.getY() - entMov2.getY();
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        if (distance < (entity.getRadius() + entity2.getRadius())) {
-            return true;
-        }
-        return false;
+        return distance < (entity.getRadius() + entity2.getRadius());
     }
 
 }
