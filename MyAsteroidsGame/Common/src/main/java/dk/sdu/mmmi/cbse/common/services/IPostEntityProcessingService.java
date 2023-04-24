@@ -10,8 +10,8 @@ public interface IPostEntityProcessingService  {
      * - Preconditions: The entity exists and has been processed by ProcessingService.
      * - Postconditions: The entity has been PostProcessed.
      *
-     * @param GameData gameData
-     * @param World world
+     * @param gameData
+     * @param world
      */
     void process(GameData gameData, World world);
 }
