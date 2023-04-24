@@ -40,9 +40,9 @@ public class AsteroidPlugin implements IGamePluginService {
     }
 
     /**
-     * createAsteroid is responsible for creating the asteroid before it can be added to the world
-     * @param gameData
-     * @return
+     * Creates a new asteroid entity with a random speed and direction.
+     * @param gameData The current game data.
+     * @return The new asteroid entity.
      */
     private Entity createAsteroid(GameData gameData) {
         Entity asteroid = new Asteroid();
@@ -55,7 +55,7 @@ public class AsteroidPlugin implements IGamePluginService {
         asteroid.add(new LifePart(3));
 
         return asteroid;
-
     }
+
 }
 
