@@ -8,6 +8,7 @@
     </parent>
     <artifactId>Common</artifactId>
     <packaging>jar</packaging>
+    <name>Common</name>
     <dependencies>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>

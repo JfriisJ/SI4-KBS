@@ -25,6 +25,5 @@ public interface IGamePluginService {
      * @param GameData gameData
      * @param World world
      */
-
     void stop(GameData gameData, World world);
 }
