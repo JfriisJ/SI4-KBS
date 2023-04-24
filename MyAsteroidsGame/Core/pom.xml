@@ -35,79 +35,29 @@
             <version>${libGDX.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Player</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>Enemy</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>dk.sdu.mmmi.cbse</groupId>
             <artifactId>Asteroid</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>dk.sdu.mmmi.cbse</groupId>
             <artifactId>Collision</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>Bullet</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>Enemy</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>Player</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            &lt;!&ndash; Clean &ndash;&gt;-->
-<!--            <plugin>-->
-<!--                <artifactId>maven-clean-plugin</artifactId>-->
-<!--                <version>3.2.0</version>-->
-<!--            </plugin>-->
-<!--            &lt;!&ndash; Compile &ndash;&gt;-->
-<!--            <plugin>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>3.10.1</version>-->
-<!--                <configuration>-->
-<!--                    <fork>true</fork>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--            &lt;!&ndash; execute the resulting project &ndash;&gt;-->
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>1.6.0</version>-->
-<!--                <inherited>false</inherited>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <executable>${java}</executable>-->
-<!--                    <workingDirectory>.</workingDirectory>-->
-<!--                    <longModulepath>false</longModulepath>-->
-<!--                    <arguments>-->
-<!--                        <argument>-Dorg.lwjgl.util.Debug=true</argument>-->
-<!--                        <argument>-Djava.library.path=libs</argument>-->
-<!--                        <argument>&#45;&#45;module-path=mods</argument>-->
-<!--                        <argument>&#45;&#45;class-path=libs/*</argument>-->
-<!--                        &lt;!&ndash; because spark.core is an automatic module and actually required,-->
-<!--                        monitor.observer.zero would be resolved as well and does not need-->
-<!--                        to be added explicitly;-->
-<!--                        I still wanted to do it for clarity, but for some reason that results-->
-<!--                        in "java.lang.module.FindException: Module monitor.observer.zero not found";-->
-<!--                        strange... &ndash;&gt;-->
-<!--                        &lt;!&ndash;<argument>&#45;&#45;add-modules=monitor.observer.zero</argument>&ndash;&gt;-->
-<!--                        <argument>&#45;&#45;module=Core/dk.sdu.mmmi.cbse.main.Main</argument>-->
-<!--                    </arguments>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
 </project>
