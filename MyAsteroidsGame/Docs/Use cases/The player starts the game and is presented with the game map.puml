@@ -19,6 +19,5 @@ Enemy -> Player : Move towards player's current position
 Player -> GameMap : Avoid incoming asteroids
 Player -> GameMap : Shoot down enemies
 GameMap -> Player : Respawn player
-Player -> Game : Collect power-ups
 Game -> GameEnd : Game over or congratulations screen
 @enduml
