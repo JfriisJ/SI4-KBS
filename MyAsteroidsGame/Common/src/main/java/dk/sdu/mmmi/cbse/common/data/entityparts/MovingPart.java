@@ -73,6 +73,10 @@ public class MovingPart
         return this.speed;
     }
 
+    public void setSpeed(float speed){
+        this.speed = speed;
+    }
+
     @Override
     public void process(GameData gameData, Entity entity) {
         PositionPart positionPart = entity.getPart(PositionPart.class);
