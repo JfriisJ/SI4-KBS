@@ -89,39 +89,39 @@ public class Game implements ApplicationListener {
 //        }
     }
 
-    /**
-     * Add the player to the game world.
-     */
-    private void addPlayer() {
-        IGamePluginService playerPlugin = new PlayerPlugin();
-        IEntityProcessingService playerProcess = new PlayerControlSystem();
-        entityPlugins.add(playerPlugin);
-        entityProcessors.add(playerProcess);
-    }
-
-    /**
-     * Adds the asteroids to the game world.
-     */
-    public void addAsteroids(int amount) {
-        for (int i = 0; i < amount; i++) {
-            IGamePluginService asteroidPlugin = new AsteroidPlugin();
-            IEntityProcessingService asteroidProcess = new AsteroidProcessingService();
-            entityPlugins.add(asteroidPlugin);
-            entityProcessors.add(asteroidProcess);
-        }
-    }
-
-    /**
-     * Adds the enemies to the game world.
-     */
-    public void addEnemies(int amount) {
-        for (int i = 0; i < amount; i++) {
-            IGamePluginService enemyPlugin = new EnemyPlugin();
-            IEntityProcessingService enemyProcess = new EnemyControlSystem();
-            entityPlugins.add(enemyPlugin);
-            entityProcessors.add(enemyProcess);
-        }
-    }
+//    /**
+//     * Add the player to the game world.
+//     */
+//    private void addPlayer() {
+//        IGamePluginService playerPlugin = new PlayerPlugin();
+//        IEntityProcessingService playerProcess = new PlayerControlSystem();
+//        entityPlugins.add(playerPlugin);
+//        entityProcessors.add(playerProcess);
+//    }
+//
+//    /**
+//     * Adds the asteroids to the game world.
+//     */
+//    public void addAsteroids(int amount) {
+//        for (int i = 0; i < amount; i++) {
+//            IGamePluginService asteroidPlugin = new AsteroidPlugin();
+//            IEntityProcessingService asteroidProcess = new AsteroidProcessingService();
+//            entityPlugins.add(asteroidPlugin);
+//            entityProcessors.add(asteroidProcess);
+//        }
+//    }
+//
+//    /**
+//     * Adds the enemies to the game world.
+//     */
+//    public void addEnemies(int amount) {
+//        for (int i = 0; i < amount; i++) {
+//            IGamePluginService enemyPlugin = new EnemyPlugin();
+//            IEntityProcessingService enemyProcess = new EnemyControlSystem();
+//            entityPlugins.add(enemyPlugin);
+//            entityProcessors.add(enemyProcess);
+//        }
+//    }
 
     /**
      * Called in each iteration of the main loop. Updates and draws the game world.
@@ -146,18 +146,18 @@ public class Game implements ApplicationListener {
      */
     private void update() {
 
-        for (Entity entity : world.getEntities()) {
-            try {
-                ShootingPart shootingPart = entity.getPart(ShootingPart.class);
-                if (shootingPart.getShooting()) {
-                    IGamePluginService bulletPlugin = new BulletPlugin(entity);
-                    this.entityPlugins.add(bulletPlugin);
-                    bulletPlugin.start(gameData, world);
-                }
-            }
-            catch (NullPointerException error) {
-            }
-        }
+//        for (Entity entity : world.getEntities()) {
+//            try {
+//                ShootingPart shootingPart = entity.getPart(ShootingPart.class);
+//                if (shootingPart.getShooting()) {
+//                    IGamePluginService bulletPlugin = new BulletPlugin(entity);
+//                    this.entityPlugins.add(bulletPlugin);
+//                    bulletPlugin.start(gameData, world);
+//                }
+//            }
+//            catch (NullPointerException error) {
+//            }
+//        }
 
 
         // Update
@@ -176,14 +176,15 @@ public class Game implements ApplicationListener {
     private void draw() {
 
         for (Entity entity : world.getEntities()) {
+            sr.setColor(1, 1, 1, 1);
 
-            if (entity.isType(Player.class)) {
-                sr.setColor(1, 0, 0, 1);
-            } else if (entity.isType(Enemy.class)) {
-                sr.setColor(0, 1, 0, 1);
-            } else {
-                sr.setColor(1, 1, 1, 1);
-            }
+//            if (entity.isType(Player.class)) {
+//                sr.setColor(1, 0, 0, 1);
+//            } else if (entity.isType(Enemy.class)) {
+//                sr.setColor(0, 1, 0, 1);
+//            } else {
+//                sr.setColor(1, 1, 1, 1);
+//            }
 
 //            sr.setColor(1, 1, 1, 1);
 

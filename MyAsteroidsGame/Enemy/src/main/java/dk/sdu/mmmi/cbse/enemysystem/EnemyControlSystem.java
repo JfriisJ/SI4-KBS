@@ -1,6 +1,7 @@
 package dk.sdu.mmmi.cbse.enemysystem;
 
 import com.badlogic.gdx.math.MathUtils;
+import dk.sdu.mmmi.cbse.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -9,9 +10,11 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.util.SPILocator;
 
 import java.util.Random;
 
+import static dk.sdu.mmmi.cbse.common.data.GameKeys.SPACE;
 import static java.lang.Math.sqrt;
 
 /**
@@ -35,7 +38,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
         for (Entity enemy : world.getEntities(Enemy.class)) {
             PositionPart positionPart = enemy.getPart(PositionPart.class);
             MovingPart movingPart = enemy.getPart(MovingPart.class);
-            ShootingPart shootingPart = enemy.getPart(ShootingPart.class);
+//            ShootingPart shootingPart = enemy.getPart(ShootingPart.class);
             LifePart lifePart = enemy.getPart(LifePart.class);
 
 
@@ -71,9 +74,14 @@ public class EnemyControlSystem implements IEntityProcessingService {
 //
 //            }
 
-            shootingPart.setShooting(MathUtils.random(0f,1f) > 0.99f);
+//            shootingPart.setShooting();
+            if (MathUtils.random(0f,1f) > 0.99f){
+                for (BulletSPI bullet : SPILocator.locateAll(BulletSPI.class)) {
+                    bullet.createBullet(enemy, gameData);
+                }
+            }
 
-            shootingPart.process(gameData, enemy);
+//            shootingPart.process(gameData, enemy);
             movingPart.process(gameData, enemy);
             positionPart.process(gameData, enemy);
             lifePart.process(gameData, enemy);
