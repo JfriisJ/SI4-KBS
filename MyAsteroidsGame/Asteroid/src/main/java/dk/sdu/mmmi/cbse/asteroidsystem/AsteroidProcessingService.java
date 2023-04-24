@@ -1,6 +1,7 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
 import com.badlogic.gdx.math.MathUtils;
+import dk.sdu.mmmi.cbse.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -8,12 +9,13 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
-import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
 /**
  * AsteroidControlSystem is responsible for updating the position of the asteroids.
  */
-public class AsteroidControlSystem implements IEntityProcessingService {
+public class AsteroidProcessingService implements IEntityProcessingService {
+
+    private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
 
     /**
      * Updates the position, Life and movement of the asteroids.
@@ -28,27 +30,38 @@ public class AsteroidControlSystem implements IEntityProcessingService {
             MovingPart movingPart = asteroid.getPart(MovingPart.class);
             LifePart lifePart = asteroid.getPart(LifePart.class);
 
+            int numPoints = 12;
+            float speed = (float) Math.random() * 10f + 20f;
+            if (lifePart.getLife() == 1) {
+                numPoints = 8;
+                speed = (float) Math.random() * 30f + 70f;
+            } else if (lifePart.getLife() == 2) {
+                numPoints = 10;
+                speed = (float) Math.random() * 10f + 50f;
+            }
+
+            movingPart.setSpeed(speed);
             movingPart.setUp(true);
 
             movingPart.process(gameData, asteroid);
             positionPart.process(gameData, asteroid);
 
-            if (lifePart.isIsHit()) {
-                // Remove asteroids from world
-                world.removeEntity(asteroid);
-
-                // Check if the asteroid which were killed, has a life of 1, which means the smallest, if not, spawn 2 new asteroids.
-                if (lifePart.getLife() != 1 ) {
-                    for (int i = 0; i < 2; i++) {
-                        IGamePluginService asteroidPlugin = new AsteroidPlugin(asteroid);
-                        asteroidPlugin.start(gameData, world);
-                    }
-                }
-
+            if (lifePart.isIsHit()){
+                asteroidSplitter.createSplitAsteroid(asteroid, world);
             }
 
             updateShape(asteroid);
         }
+    }
+    /**
+     * Dependency Injection using OSGi Declarative Services
+     */
+    public void setAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
+        this.asteroidSplitter = asteroidSplitter;
+    }
+
+    public void removeAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
+        this.asteroidSplitter = null;
     }
 
     /**
