@@ -7,13 +7,12 @@ public interface IGamePluginService {
 
     /**
      * This interface is responsible for managing all the components of the game.
-     *
      * - `start`: Starts the game.
      *     - Preconditions: The game has been initialized.
      *     - Postconditions: The game is running.
      *
-     * @param GameData gameData
-     * @param World world
+     * @param GameData
+     * @param World
      */
     void start(GameData gameData, World world);
 
@@ -22,8 +21,8 @@ public interface IGamePluginService {
      *     - Preconditions: The game is running.
      *     - Postconditions: The game is stopped.
      *
-     * @param GameData gameData
-     * @param World world
+     * @param GameData
+     * @param World
      */
     void stop(GameData gameData, World world);
 }
