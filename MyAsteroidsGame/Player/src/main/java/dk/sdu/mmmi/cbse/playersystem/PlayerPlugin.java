@@ -19,8 +19,8 @@ public class PlayerPlugin implements IGamePluginService {
     /**
      * Adds a player to the game.
      *
-     * @param gameData
-     * @param world
+     * @param GameData gameData
+     * @param World world
      */
     @Override
     public void start(GameData gameData, World world) {
@@ -33,7 +33,7 @@ public class PlayerPlugin implements IGamePluginService {
     /**
      * Creates a player before adding it to the world.
      *
-     * @param gameData
+     * @param GameData gameData
      * @return
      */
     private Entity createPlayerShip(GameData gameData) {
