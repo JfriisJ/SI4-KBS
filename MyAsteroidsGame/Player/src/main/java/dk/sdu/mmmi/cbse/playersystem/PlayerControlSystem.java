@@ -1,5 +1,6 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
+import dk.sdu.mmmi.cbse.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -8,6 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.util.SPILocator;
 
 import static dk.sdu.mmmi.cbse.common.data.GameKeys.*;
 import static java.lang.Math.sqrt;
@@ -27,26 +29,33 @@ public class PlayerControlSystem implements IEntityProcessingService {
             LifePart lifePart = player.getPart(LifePart.class);
             ShootingPart shootingPart = player.getPart(ShootingPart.class);
 
-            movingPart.process(gameData, player);
-            positionPart.process(gameData, player);
-            lifePart.process(gameData, player);
-            shootingPart.process(gameData, player);
+
 
             movingPart.setLeft(gameData.getKeys().isDown(LEFT));
             movingPart.setRight(gameData.getKeys().isDown(RIGHT));
             movingPart.setUp(gameData.getKeys().isDown(UP));
+//            shootingPart.setShooting(gameData.getKeys().isDown(SPACE));
 
-            shootingPart.setShooting(gameData.getKeys().isDown(SPACE));
-
-            if (lifePart.isIsHit()){
-                lifePart.setIsHit(false);
-                lifePart.setLife(lifePart.getLife() - 1);
-//                System.out.println("Player hit! Life: " + lifePart.getLife());
-                if (lifePart.getLife() < 0){
-                    world.removeEntity(player);
+            if (gameData.getKeys().isDown(SPACE)){
+                for (BulletSPI bullet : SPILocator.locateAll(BulletSPI.class)) {
+                    bullet.createBullet(player, gameData);
                 }
-
             }
+
+//            if (lifePart.isIsHit()){
+//                lifePart.setIsHit(false);
+//                lifePart.setLife(lifePart.getLife() - 1);
+////                System.out.println("Player hit! Life: " + lifePart.getLife());
+//                if (lifePart.getLife() < 0){
+//                    world.removeEntity(player);
+//                }
+//
+//            }
+
+            movingPart.process(gameData, player);
+            positionPart.process(gameData, player);
+            lifePart.process(gameData, player);
+            shootingPart.process(gameData, player);
 
             updateShape(player);
         }

@@ -5,7 +5,7 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 
 /**
  *
- * @author corfixen
+ * @author  Jon Jakobsen
  */
 public class Player extends Entity {
 
