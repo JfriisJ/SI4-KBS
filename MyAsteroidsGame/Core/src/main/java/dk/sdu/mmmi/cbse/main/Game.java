@@ -17,6 +17,7 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
+import dk.sdu.mmmi.cbse.common.util.SPILocator;
 import dk.sdu.mmmi.cbse.managers.GameInputProcessor;
 import dk.sdu.mmmi.cbse.playersystem.Player;
 import dk.sdu.mmmi.cbse.playersystem.PlayerControlSystem;
@@ -26,6 +27,7 @@ import dk.sdu.mmmi.cbse.enemysystem.EnemyControlSystem;
 import dk.sdu.mmmi.cbse.enemysystem.EnemyPlugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -60,28 +62,33 @@ public class Game implements ApplicationListener {
 
         Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
 
-
-        // Create and add the player to the world
-        addPlayer();
-
-        // Create and add the enemy to the world
-        addEnemies(1);
-
-        // Create and add the asteroids to the world
-        addAsteroids(4);
-
-        // Create and add the bullets to the world
-        IEntityProcessingService bulletProcess = new BulletControlSystem();
-        entityProcessors.add(bulletProcess);
-
-        // Create and add the collision detection system to the world
-        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
-        postEntityProcessors.add(collisionPostProcessor);
-
-        // Start all the plugins
-        for (IGamePluginService iGamePlugin : entityPlugins) {
-            iGamePlugin.start(gameData, this.world);
+        // Lookup all Game Plugins using ServiceLoader
+        for (IGamePluginService iGamePlugin : getPluginServices()) {
+            iGamePlugin.start(gameData, world);
         }
+
+
+//        // Create and add the player to the world
+//        addPlayer();
+//
+//        // Create and add the enemy to the world
+//        addEnemies(1);
+//
+//        // Create and add the asteroids to the world
+//        addAsteroids(4);
+//
+//        // Create and add the bullets to the world
+//        IEntityProcessingService bulletProcess = new BulletControlSystem();
+//        entityProcessors.add(bulletProcess);
+//
+//        // Create and add the collision detection system to the world
+//        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
+//        postEntityProcessors.add(collisionPostProcessor);
+//
+//        // Start all the plugins
+//        for (IGamePluginService iGamePlugin : entityPlugins) {
+//            iGamePlugin.start(gameData, this.world);
+//        }
     }
 
     /**
@@ -128,21 +135,6 @@ public class Game implements ApplicationListener {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
-
-//        if (gameData.getKeys().isPressed(GameKeys.SPACE)) {
-//            for (Entity shooter : this.world.getEntities(Player.class)) {
-//                IGamePluginService plugin = new BulletPlugin(shooter);
-//                this.entityPlugins.add(plugin);
-//                plugin.start(gameData, world);
-//            }
-//        }
-//        if (Math.random() < 0.05){
-//            for (Entity shooter : this.world.getEntities(Enemy.class)) {
-//                IGamePluginService plugin = new BulletPlugin(shooter);
-//                this.entityPlugins.add(plugin);
-//                plugin.start(gameData, world);
-//            }
-//        }
 
         update();
 
@@ -225,5 +217,17 @@ public class Game implements ApplicationListener {
 
     @Override
     public void dispose() {
+    }
+
+    private Collection<? extends IGamePluginService> getPluginServices() {
+        return SPILocator.locateAll(IGamePluginService.class);
+    }
+
+    private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
+        return SPILocator.locateAll(IEntityProcessingService.class);
+    }
+
+    private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
+        return SPILocator.locateAll(IPostEntityProcessingService.class);
     }
 }
