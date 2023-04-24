@@ -1,6 +1,6 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
-import dk.sdu.mmmi.cbse.IAsteroidSplitter;
+import dk.sdu.mmmi.cbse.common.services.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
@@ -9,7 +9,16 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-public class AsteroidSplitterImpl implements IAsteroidSplitter {
+/**
+ * Implementation of the IAsteroidSplitter interface using the ServiceLoader mechanism.
+ */
+public class AsteroidSplitterImpl implements IAsteroidSplitter{
+
+    /**
+     * Creates two new asteroids from an existing one.
+     * @param e The existing asteroid.
+     * @param world The game world.
+     */
     @Override
     public void createSplitAsteroid(Entity e, World world) {
         PositionPart otherPos = e.getPart(PositionPart.class);

@@ -1,16 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.sdu.mmmi.cbse.common.data.entityparts;
 
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 
 /**
- *
- * @author Someone
+ * Entity part that handles the life of an entity in the game.
+ * The life can be decreased by setting isHit to true.
+ * If life reaches zero, the entity is considered dead.
  */
 public class LifePart implements EntityPart {
 
@@ -43,6 +39,10 @@ public class LifePart implements EntityPart {
         return dead;
     }
 
+    /**
+     * Process the current state of the entity.
+     * Decreases life if isHit is set to true, and sets dead to true if life is zero or below.
+     */
     @Override
     public void process(GameData gameData, Entity entity) {
         if (isHit) {
@@ -52,6 +52,5 @@ public class LifePart implements EntityPart {
         if (life <= 0) {
             dead = true;
         }
-        
     }
 }

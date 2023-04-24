@@ -1,7 +1,7 @@
 package dk.sdu.mmmi.cbse.bulletsystem;
 
 import com.badlogic.gdx.math.MathUtils;
-import dk.sdu.mmmi.cbse.BulletSPI;
+import dk.sdu.mmmi.cbse.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -9,9 +9,28 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.TimerPart;
+import dk.sdu.mmmi.cbse.common.services.IBulletCreateService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
+/**
+ * The BulletControlSystem class controls the behavior of bullets in the game.
+ * It implements IEntityProcessingService and IBulletCreateService interfaces.
+ * The process() method updates the position and movement of all bullets in the game.
+ * The createBullet() method creates a new bullet entity when called.
+ */
+public class BulletControlSystem implements IEntityProcessingService, IBulletCreateService {
 
-public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
+    /**
+     * Constructs a BulletControlSystem.
+     */
+    public BulletControlSystem() {
+
+    }
+
+    /**
+     * Processes all the bullets in the game, updating their position and movement.
+     * @param gameData The GameData object.
+     * @param world The World object.
+     */
     @Override
     public void process(GameData gameData, World world) {
 
@@ -21,6 +40,7 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             TimerPart timerPart = bullet.getPart(TimerPart.class);
 
             movingPart.setUp(true);
+
             if (timerPart.getExpiration() < 0) {
                 world.removeEntity(bullet);
             }
@@ -29,25 +49,18 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             movingPart.process(gameData, bullet);
             positionPart.process(gameData, bullet);
 
-//            LifePart lifePart = bullet.getPart(LifePart.class);
-
-//            lifePart.reduceExpiration(gameData.getDelta());
-//            lifePart.process(gameData, bullet);
-
-
-
-//            if (lifePart.getExpiration() < 0 || lifePart.isIsHit()){
-//                world.removeEntity(bullet);
-//            }
             updateShape(bullet);
         }
 
     }
 
+    /**
+     * Updates the shape of a bullet entity based on its position and movement.
+     * @param bullet The bullet entity.
+     */
     private void updateShape(Entity bullet) {
-        float[] shapex = new float[4];
-        float[] shapey = new float[4];
-
+        float[] shapex = bullet.getShapeX();
+        float[] shapey = bullet.getShapeY();
         PositionPart positionPart = bullet.getPart(PositionPart.class);
         float x = positionPart.getX();
         float y = positionPart.getY();
@@ -56,29 +69,22 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
         shapex[0] = x;
         shapey[0] = y;
 
-        shapex[1] = x + MathUtils.cos(radians - 4 * 3.1415f / 5);
-        shapey[1] = y + MathUtils.sin(radians - 4 * 3.1415f / 5);
-
-//        shapex[0] = x + 2 * MathUtils.cos(radians + 3.1415f / 2);
-//        shapey[0] = y + 2 * MathUtils.sin(radians + 3.1415f / 2);
-//
-//        shapex[1] = x + 2 * MathUtils.cos(radians + 3.1415f + 3.1415f / 4);
-//        shapey[1] = y + 2 * MathUtils.sin(radians + 3.1415f + 3.1415f / 4);
-//
-//        shapex[2] = x + 2 * MathUtils.cos(radians + 3.1415f);
-//        shapey[2] = y + 2 * MathUtils.sin(radians + 3.1415f);
-//
-//        shapex[3] = x + 2 * MathUtils.cos(radians + 3.1415f - 3.1415f / 4);
-//        shapey[3] = y + 2 * MathUtils.sin(radians + 3.1415f - 3.1415f / 4);
+        shapex[1] = (float) (x + Math.cos(radians - 4 * 3.1415f / 5));
+        shapey[1] = (float) (y + Math.sin(radians - 4 * 3.1145f / 5));
 
         bullet.setShapeX(shapex);
         bullet.setShapeY(shapey);
 
     }
 
+    /**
+     * Creates a new bullet entity.
+     * @param shooter The entity that fired the bullet.
+     * @param gameData The GameData object.
+     * @return The new bullet entity.
+     */
     @Override
     public Entity createBullet(Entity shooter, GameData gameData) {
-
         PositionPart positionPart = shooter.getPart(PositionPart.class);
 
         float x = positionPart.getX();

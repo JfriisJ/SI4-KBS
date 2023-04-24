@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.sdu.mmmi.cbse.common.data.entityparts;
 
 import com.badlogic.gdx.math.MathUtils;
@@ -13,8 +8,7 @@ import static java.lang.Math.sin;
 import static java.lang.Math.sqrt;
 
 /**
- *
- * @author Alexander
+ * MovingPart is responsible for handling movement of entities in game.
  */
 public class MovingPart
         implements EntityPart {
@@ -24,6 +18,14 @@ public class MovingPart
     private float maxSpeed, rotationSpeed, speed;
     private boolean left, right, up, startingSpeedSet;
 
+    /**
+     * Constructs a new MovingPart object.
+     *
+     * @param deceleration The rate of deceleration when the entity stops accelerating.
+     * @param acceleration The rate of acceleration when the entity begins moving.
+     * @param maxSpeed The maximum speed the entity can reach.
+     * @param rotationSpeed The rate of rotation when the entity turns.
+     */
     public MovingPart(float deceleration, float acceleration, float maxSpeed, float rotationSpeed) {
         this.deceleration = deceleration;
         this.acceleration = acceleration;
@@ -31,6 +33,15 @@ public class MovingPart
         this.rotationSpeed = rotationSpeed;
     }
 
+    /**
+     * Constructs a new MovingPart object with a starting speed.
+     *
+     * @param deacceleration The rate of deceleration when the entity stops accelerating.
+     * @param acceleration The rate of acceleration when the entity begins moving.
+     * @param maxSpeed The maximum speed the entity can reach.
+     * @param rotationSpeed The rate of rotation when the entity turns.
+     * @param speed The starting speed of the entity.
+     */
     public MovingPart(float deacceleration, float acceleration, float maxSpeed, float rotationSpeed, float speed) {
         this.deceleration = deacceleration;
         this.acceleration = acceleration;
@@ -68,15 +79,31 @@ public class MovingPart
         this.up = up;
     }
 
+    /**
+     * Gets the current speed of the entity.
+     *
+     * @return The current speed of the entity.
+     */
     public float getSpeed() {
-        this.speed = (float) Math.sqrt(dx * dx + dy * dy);
+        this.speed = (float) sqrt(dx * dx + dy * dy);
         return this.speed;
     }
 
+    /**
+     * Sets the speed of the entity.
+     *
+     * @param speed The new speed of the entity.
+     */
     public void setSpeed(float speed){
         this.speed = speed;
     }
 
+    /**
+     * Overrides EntityPart.process. Handles movement of entities in game.
+     *
+     * @param gameData The current game state data.
+     * @param entity The entity to be processed.
+     */
     @Override
     public void process(GameData gameData, Entity entity) {
         PositionPart positionPart = entity.getPart(PositionPart.class);
@@ -100,7 +127,7 @@ public class MovingPart
             radians -= rotationSpeed * dt;
         }
 
-        // accelerating            
+        // accelerating
         if (up) {
             dx += cos(radians) * acceleration * dt;
             dy += sin(radians) * acceleration * dt;
@@ -139,6 +166,5 @@ public class MovingPart
 
         positionPart.setRadians(radians);
     }
-
 
 }

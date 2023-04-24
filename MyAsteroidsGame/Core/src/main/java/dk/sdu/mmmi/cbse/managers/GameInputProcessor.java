@@ -4,7 +4,10 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.GameKeys;
-
+/**
+ * GameInputProcessor is a class that handles input from the user in the game.
+ * This class is used to respond to user input and update the game accordingly.
+ */
 public class GameInputProcessor extends InputAdapter {
 
     private final GameData gameData;

@@ -1,6 +1,5 @@
 package dk.sdu.mmmi.cbse.playersystem;
 
-import dk.sdu.mmmi.cbse.BulletSPI;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -8,6 +7,7 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.LifePart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.MovingPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
+import dk.sdu.mmmi.cbse.common.services.IBulletCreateService;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.util.SPILocator;
 
@@ -15,11 +15,16 @@ import static dk.sdu.mmmi.cbse.common.data.GameKeys.*;
 import static java.lang.Math.sqrt;
 
 /**
- *
- * @author jcs
+ * The PlayerControlSystem class is responsible for processing the player entity.
  */
 public class PlayerControlSystem implements IEntityProcessingService {
 
+    /**
+     * Processes the player entity.
+     *
+     * @param gameData the game data
+     * @param world the game world
+     */
     @Override
     public void process(GameData gameData, World world) {
 
@@ -29,38 +34,32 @@ public class PlayerControlSystem implements IEntityProcessingService {
             LifePart lifePart = player.getPart(LifePart.class);
             ShootingPart shootingPart = player.getPart(ShootingPart.class);
 
-
-
-            movingPart.setLeft(gameData.getKeys().isDown(LEFT));
-            movingPart.setRight(gameData.getKeys().isDown(RIGHT));
-            movingPart.setUp(gameData.getKeys().isDown(UP));
-//            shootingPart.setShooting(gameData.getKeys().isDown(SPACE));
-
-            if (gameData.getKeys().isDown(SPACE)){
-                for (BulletSPI bullet : SPILocator.locateAll(BulletSPI.class)) {
-                    bullet.createBullet(player, gameData);
-                }
-            }
-
-//            if (lifePart.isIsHit()){
-//                lifePart.setIsHit(false);
-//                lifePart.setLife(lifePart.getLife() - 1);
-////                System.out.println("Player hit! Life: " + lifePart.getLife());
-//                if (lifePart.getLife() < 0){
-//                    world.removeEntity(player);
-//                }
-//
-//            }
-
             movingPart.process(gameData, player);
             positionPart.process(gameData, player);
             lifePart.process(gameData, player);
             shootingPart.process(gameData, player);
 
+            movingPart.setLeft(gameData.getKeys().isDown(LEFT));
+            movingPart.setRight(gameData.getKeys().isDown(RIGHT));
+            movingPart.setUp(gameData.getKeys().isDown(UP));
+            shootingPart.setShooting(gameData.getKeys().isDown(SPACE));
+
+            if (shootingPart.getShooting()){
+                for (IBulletCreateService bullet : SPILocator.locateAll(IBulletCreateService.class)) {
+                    world.addEntity(bullet.createBullet(player, gameData));
+
+                }
+            }
+
             updateShape(player);
         }
     }
 
+    /**
+     * Updates the shape of the player entity.
+     *
+     * @param entity the player entity
+     */
     private void updateShape(Entity entity) {
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
@@ -68,8 +67,6 @@ public class PlayerControlSystem implements IEntityProcessingService {
         float x = positionPart.getX();
         float y = positionPart.getY();
         float radians = positionPart.getRadians();
-
-
 
         shapex[0] = (float) (x + Math.cos(radians) * 8);
         shapey[0] = (float) (y + Math.sin(radians) * 8);
@@ -88,5 +85,4 @@ public class PlayerControlSystem implements IEntityProcessingService {
         entity.setShapeX(shapex);
         entity.setShapeY(shapey);
     }
-
 }

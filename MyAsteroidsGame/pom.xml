@@ -15,9 +15,6 @@
         <module>Asteroid</module>
         <module>Collision</module>
         <module>Bullet</module>
-        <module>CommonAsteroids</module>
-        <module>CommonBullet</module>
-        <module>CommonEnemy</module>
     </modules>
 
     <properties>
@@ -27,39 +24,4 @@
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
-    <build>
-        <plugins>
-            <!-- Clean -->
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
-            </plugin>
-            <!-- Compile -->
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
-            </plugin>
-            <!-- execute the resulting project -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
-                <inherited>false</inherited>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>${java}</executable>
-                    <mainClass>C:\Github\komponent baseret\SI4-KBS\MyAsteroidsGame\Core\src\main\java\dk\sdu\mmmi\cbse\main\Main</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

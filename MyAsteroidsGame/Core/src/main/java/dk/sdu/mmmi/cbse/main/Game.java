@@ -5,28 +5,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidProcessingService;
-import dk.sdu.mmmi.cbse.asteroidsystem.AsteroidPlugin;
-import dk.sdu.mmmi.cbse.bulletsystem.BulletPlugin;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
-import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.util.SPILocator;
 import dk.sdu.mmmi.cbse.managers.GameInputProcessor;
-import dk.sdu.mmmi.cbse.playersystem.Player;
-import dk.sdu.mmmi.cbse.playersystem.PlayerControlSystem;
-import dk.sdu.mmmi.cbse.playersystem.PlayerPlugin;
-import dk.sdu.mmmi.cbse.enemysystem.Enemy;
-import dk.sdu.mmmi.cbse.enemysystem.EnemyControlSystem;
-import dk.sdu.mmmi.cbse.enemysystem.EnemyPlugin;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * The Game class is the main class for the game application. It creates a new game world and updates and draws the game world
@@ -38,9 +26,6 @@ public class Game implements ApplicationListener {
     private static OrthographicCamera cam;
     private ShapeRenderer sr;
     private GameData gameData = new GameData();
-    private List<IEntityProcessingService> entityProcessors = new ArrayList<>();
-    private List<IGamePluginService> entityPlugins = new ArrayList<>();
-    private List<IPostEntityProcessingService> postEntityProcessors = new ArrayList<>();
     private World world = new World();
 
     /**
@@ -65,63 +50,7 @@ public class Game implements ApplicationListener {
             iGamePlugin.start(gameData, world);
         }
 
-
-//        // Create and add the player to the world
-//        addPlayer();
-//
-//        // Create and add the enemy to the world
-//        addEnemies(1);
-//
-//        // Create and add the asteroids to the world
-//        addAsteroids(4);
-//
-//        // Create and add the bullets to the world
-//        IEntityProcessingService bulletProcess = new BulletControlSystem();
-//        entityProcessors.add(bulletProcess);
-//
-//        // Create and add the collision detection system to the world
-//        IPostEntityProcessingService collisionPostProcessor = new CollisionDetectionSystem();
-//        postEntityProcessors.add(collisionPostProcessor);
-//
-//        // Start all the plugins
-//        for (IGamePluginService iGamePlugin : entityPlugins) {
-//            iGamePlugin.start(gameData, this.world);
-//        }
     }
-
-//    /**
-//     * Add the player to the game world.
-//     */
-//    private void addPlayer() {
-//        IGamePluginService playerPlugin = new PlayerPlugin();
-//        IEntityProcessingService playerProcess = new PlayerControlSystem();
-//        entityPlugins.add(playerPlugin);
-//        entityProcessors.add(playerProcess);
-//    }
-//
-//    /**
-//     * Adds the asteroids to the game world.
-//     */
-//    public void addAsteroids(int amount) {
-//        for (int i = 0; i < amount; i++) {
-//            IGamePluginService asteroidPlugin = new AsteroidPlugin();
-//            IEntityProcessingService asteroidProcess = new AsteroidProcessingService();
-//            entityPlugins.add(asteroidPlugin);
-//            entityProcessors.add(asteroidProcess);
-//        }
-//    }
-//
-//    /**
-//     * Adds the enemies to the game world.
-//     */
-//    public void addEnemies(int amount) {
-//        for (int i = 0; i < amount; i++) {
-//            IGamePluginService enemyPlugin = new EnemyPlugin();
-//            IEntityProcessingService enemyProcess = new EnemyControlSystem();
-//            entityPlugins.add(enemyPlugin);
-//            entityProcessors.add(enemyProcess);
-//        }
-//    }
 
     /**
      * Called in each iteration of the main loop. Updates and draws the game world.
@@ -146,28 +75,14 @@ public class Game implements ApplicationListener {
      */
     private void update() {
 
-//        for (Entity entity : world.getEntities()) {
-//            try {
-//                ShootingPart shootingPart = entity.getPart(ShootingPart.class);
-//                if (shootingPart.getShooting()) {
-//                    IGamePluginService bulletPlugin = new BulletPlugin(entity);
-//                    this.entityPlugins.add(bulletPlugin);
-//                    bulletPlugin.start(gameData, world);
-//                }
-//            }
-//            catch (NullPointerException error) {
-//            }
-//        }
-
-
         // Update
-        for (IEntityProcessingService entityProcessorService : entityProcessors) {
+        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
-        for (IPostEntityProcessingService postEntityProcessorService : postEntityProcessors) {
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
-
         }
+
     }
 
     /**
@@ -177,16 +92,6 @@ public class Game implements ApplicationListener {
 
         for (Entity entity : world.getEntities()) {
             sr.setColor(1, 1, 1, 1);
-
-//            if (entity.isType(Player.class)) {
-//                sr.setColor(1, 0, 0, 1);
-//            } else if (entity.isType(Enemy.class)) {
-//                sr.setColor(0, 1, 0, 1);
-//            } else {
-//                sr.setColor(1, 1, 1, 1);
-//            }
-
-//            sr.setColor(1, 1, 1, 1);
 
             sr.begin(ShapeRenderer.ShapeType.Line);
 
@@ -218,14 +123,29 @@ public class Game implements ApplicationListener {
     public void dispose() {
     }
 
+    /**
+     * This method returns a collection of all the game plugin services that have been located using ServiceLoader.
+     *
+     * @return a collection of all the game plugin services
+     */
     private Collection<? extends IGamePluginService> getPluginServices() {
         return SPILocator.locateAll(IGamePluginService.class);
     }
 
+    /**
+     * This method returns a collection of all the entity processing services that have been located using ServiceLoader.
+     *
+     * @return a collection of all the entity processing services
+     */
     private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
         return SPILocator.locateAll(IEntityProcessingService.class);
     }
 
+    /**
+     * This method returns a collection of all the post-entity processing services that have been located using ServiceLoader.
+     *
+     * @return a collection of all the post-entity processing services
+     */
     private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
         return SPILocator.locateAll(IPostEntityProcessingService.class);
     }

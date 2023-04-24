@@ -9,21 +9,33 @@ import dk.sdu.mmmi.cbse.common.data.entityparts.PositionPart;
 import dk.sdu.mmmi.cbse.common.data.entityparts.ShootingPart;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 
+/**
+ * The PlayerPlugin is a plugin that adds a player to the game.
+ */
 public class PlayerPlugin implements IGamePluginService {
 
     private Entity player;
 
-    public PlayerPlugin() {
-    }
-
+    /**
+     * Adds a player to the game.
+     *
+     * @param gameData
+     * @param world
+     */
     @Override
     public void start(GameData gameData, World world) {
-        
+
         // Add entities to the world
         player = createPlayerShip(gameData);
         world.addEntity(player);
     }
 
+    /**
+     * Creates a player before adding it to the world.
+     *
+     * @param gameData
+     * @return
+     */
     private Entity createPlayerShip(GameData gameData) {
 
         float deacceleration = 10;
@@ -33,16 +45,22 @@ public class PlayerPlugin implements IGamePluginService {
         float x = gameData.getDisplayWidth() / 2;
         float y = gameData.getDisplayHeight() / 2;
         float radians = 3.1415f / 2;
-        
+
         Entity playerShip = new Player();
         playerShip.add(new MovingPart(deacceleration, acceleration, maxSpeed, rotationSpeed));
         playerShip.add(new PositionPart(x, y, radians));
         playerShip.add(new LifePart(1));
         playerShip.add(new ShootingPart(0.2f));
-        
+
         return playerShip;
     }
 
+    /**
+     * Removes the player from the game.
+     *
+     * @param gameData
+     * @param world
+     */
     @Override
     public void stop(GameData gameData, World world) {
         // Remove entities
