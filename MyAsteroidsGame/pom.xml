@@ -31,25 +31,6 @@
                 <artifactId>shadedlibgdx</artifactId>
                 <version>1.0.1-SNAPSHOT</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-dependency-plugin -->
-            <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.5.0</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-clean-plugin -->
-            <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
-            </dependency>
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-            <dependency>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
-            </dependency>
-
         </dependencies>
     </dependencyManagement>
 
