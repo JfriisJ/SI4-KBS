@@ -23,130 +23,130 @@ import java.util.Collection;
  */
 public class Game implements ApplicationListener {
 
-    private static OrthographicCamera cam;
-    private ShapeRenderer sr;
-    private GameData gameData = new GameData();
-    private World world = new World();
+	private static OrthographicCamera cam;
+	private ShapeRenderer sr;
+	private GameData gameData = new GameData();
+	private World world = new World();
 
-    /**
-     * Called when the game is first created. Initializes the game world, entity processors, and plugins.
-     */
-    @Override
-    public void create() {
+	/**
+	 * Called when the game is first created. Initializes the game world, entity processors, and plugins.
+	 */
+	@Override
+	public void create() {
 
-        gameData.setDisplayWidth(Gdx.graphics.getWidth());
-        gameData.setDisplayHeight(Gdx.graphics.getHeight());
+		gameData.setDisplayWidth(Gdx.graphics.getWidth());
+		gameData.setDisplayHeight(Gdx.graphics.getHeight());
 
-        cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
-        cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
-        cam.update();
+		cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+		cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
+		cam.update();
 
-        sr = new ShapeRenderer();
+		sr = new ShapeRenderer();
 
-        Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
+		Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
 
-        // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getPluginServices()) {
-            iGamePlugin.start(gameData, world);
-        }
+		// Lookup all Game Plugins using ServiceLoader
+		for (IGamePluginService iGamePlugin : getPluginServices()) {
+			iGamePlugin.start(gameData, world);
+		}
 
-    }
+	}
 
-    /**
-     * Called in each iteration of the main loop. Updates and draws the game world.
-     */
-    @Override
-    public void render() {
+	/**
+	 * Called in each iteration of the main loop. Updates and draws the game world.
+	 */
+	@Override
+	public void render() {
 
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        gameData.setDelta(Gdx.graphics.getDeltaTime());
+		gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        update();
+		update();
 
-        draw();
+		draw();
 
-        gameData.getKeys().update();
-    }
+		gameData.getKeys().update();
+	}
 
-    /**
-     * Updates the game world by processing all entity processors and post-entity processors.
-     */
-    private void update() {
+	/**
+	 * Updates the game world by processing all entity processors and post-entity processors.
+	 */
+	private void update() {
 
-        // Update
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-            entityProcessorService.process(gameData, world);
-        }
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-            postEntityProcessorService.process(gameData, world);
-        }
+		// Update
+		for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+			entityProcessorService.process(gameData, world);
+		}
+		for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+			postEntityProcessorService.process(gameData, world);
+		}
 
-    }
+	}
 
-    /**
-     * Draws the game world by drawing all entities in the world.
-     */
-    private void draw() {
+	/**
+	 * Draws the game world by drawing all entities in the world.
+	 */
+	private void draw() {
 
-        for (Entity entity : world.getEntities()) {
-            sr.setColor(1, 1, 1, 1);
+		for (Entity entity : world.getEntities()) {
+			sr.setColor(1, 1, 1, 1);
 
-            sr.begin(ShapeRenderer.ShapeType.Line);
+			sr.begin(ShapeRenderer.ShapeType.Line);
 
-            float[] shapex = entity.getShapeX();
-            float[] shapey = entity.getShapeY();
+			float[] shapex = entity.getShapeX();
+			float[] shapey = entity.getShapeY();
 
-            for (int i = 0, j = shapex.length - 1; i < shapex.length; j = i++) {
+			for (int i = 0, j = shapex.length - 1; i < shapex.length; j = i++) {
 
-                sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
-            }
+				sr.line(shapex[i], shapey[i], shapex[j], shapey[j]);
+			}
 
-            sr.end();
-        }
-    }
+			sr.end();
+		}
+	}
 
-    @Override
-    public void resize(int width, int height) {
-    }
+	@Override
+	public void resize(int width, int height) {
+	}
 
-    @Override
-    public void pause() {
-    }
+	@Override
+	public void pause() {
+	}
 
-    @Override
-    public void resume() {
-    }
+	@Override
+	public void resume() {
+	}
 
-    @Override
-    public void dispose() {
-    }
+	@Override
+	public void dispose() {
+	}
 
-    /**
-     * This method returns a collection of all the game plugin services that have been located using ServiceLoader.
-     *
-     * @return a collection of all the game plugin services
-     */
-    private Collection<? extends IGamePluginService> getPluginServices() {
-        return SPILocator.locateAll(IGamePluginService.class);
-    }
+	/**
+	 * This method returns a collection of all the game plugin services that have been located using ServiceLoader.
+	 *
+	 * @return a collection of all the game plugin services
+	 */
+	private Collection<? extends IGamePluginService> getPluginServices() {
+		return SPILocator.locateAll(IGamePluginService.class);
+	}
 
-    /**
-     * This method returns a collection of all the entity processing services that have been located using ServiceLoader.
-     *
-     * @return a collection of all the entity processing services
-     */
-    private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return SPILocator.locateAll(IEntityProcessingService.class);
-    }
+	/**
+	 * This method returns a collection of all the entity processing services that have been located using ServiceLoader.
+	 *
+	 * @return a collection of all the entity processing services
+	 */
+	private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
+		return SPILocator.locateAll(IEntityProcessingService.class);
+	}
 
-    /**
-     * This method returns a collection of all the post-entity processing services that have been located using ServiceLoader.
-     *
-     * @return a collection of all the post-entity processing services
-     */
-    private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return SPILocator.locateAll(IPostEntityProcessingService.class);
-    }
+	/**
+	 * This method returns a collection of all the post-entity processing services that have been located using ServiceLoader.
+	 *
+	 * @return a collection of all the post-entity processing services
+	 */
+	private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
+		return SPILocator.locateAll(IPostEntityProcessingService.class);
+	}
 }

@@ -13,49 +13,49 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
  */
 public class AsteroidPlugin implements IGamePluginService {
 
-    /**
-     * Start is responsible for adding the asteroid entity into the world
-     * @param gameData
-     * @param world
-     */
-    @Override
-    public void start(GameData gameData, World world) {
-        // Add entities to the world
-        Entity asteroid = createAsteroid(gameData);
-        world.addEntity(asteroid);
-    }
+	/**
+	 * Start is responsible for adding the asteroid entity into the world
+	 * @param gameData
+	 * @param world
+	 */
+	@Override
+	public void start(GameData gameData, World world) {
+		// Add entities to the world
+		Entity asteroid = createAsteroid(gameData);
+		world.addEntity(asteroid);
+	}
 
 
-    /**
-     * Stop is responsible for removing the asteroid entity into the world
-     * @param gameData
-     * @param world
-     */
-    @Override
-    public void stop(GameData gameData, World world) {
-        // Remove entities
-        for (Entity asteroid : world.getEntities(Asteroid.class)) {
-            world.removeEntity(asteroid);
-        }
-    }
+	/**
+	 * Stop is responsible for removing the asteroid entity into the world
+	 * @param gameData
+	 * @param world
+	 */
+	@Override
+	public void stop(GameData gameData, World world) {
+		// Remove entities
+		for (Entity asteroid : world.getEntities(Asteroid.class)) {
+			world.removeEntity(asteroid);
+		}
+	}
 
-    /**
-     * Creates a new asteroid entity with a random speed and direction.
-     * @param gameData The current game data.
-     * @return The new asteroid entity.
-     */
-    private Entity createAsteroid(GameData gameData) {
-        Entity asteroid = new Asteroid();
-        float radians = (float) Math.random() * 2 * 3.1415f;
-        float speed = (float) Math.random() * 10f + 20f;
+	/**
+	 * Creates a new asteroid entity with a random speed and direction.
+	 * @param gameData The current game data.
+	 * @return The new asteroid entity.
+	 */
+	private Entity createAsteroid(GameData gameData) {
+		Entity asteroid = new Asteroid();
+		float radians = (float) Math.random() * 2 * 3.1415f;
+		float speed = (float) Math.random() * 10f + 20f;
 
-        asteroid.setRadius(20);
-        asteroid.add(new MovingPart(0, speed, speed, 0));
-        asteroid.add(new PositionPart(30,30, radians));
-        asteroid.add(new LifePart(3));
+		asteroid.setRadius(20);
+		asteroid.add(new MovingPart(0, speed, speed, 0));
+		asteroid.add(new PositionPart(30,30, radians));
+		asteroid.add(new LifePart(3));
 
-        return asteroid;
-    }
+		return asteroid;
+	}
 
 }
 

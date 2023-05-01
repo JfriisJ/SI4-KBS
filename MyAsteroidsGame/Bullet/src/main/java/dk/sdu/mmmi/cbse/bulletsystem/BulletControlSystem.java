@@ -19,95 +19,95 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
  */
 public class BulletControlSystem implements IEntityProcessingService, IBulletCreateService {
 
-    /**
-     * Constructs a BulletControlSystem.
-     */
-    public BulletControlSystem() {
+	/**
+	 * Constructs a BulletControlSystem.
+	 */
+	public BulletControlSystem() {
 
-    }
+	}
 
-    /**
-     * Processes all the bullets in the game, updating their position and movement.
-     * @param gameData The GameData object.
-     * @param world The World object.
-     */
-    @Override
-    public void process(GameData gameData, World world) {
+	/**
+	 * Processes all the bullets in the game, updating their position and movement.
+	 * @param gameData The GameData object.
+	 * @param world The World object.
+	 */
+	@Override
+	public void process(GameData gameData, World world) {
 
-        for (Entity bullet : world.getEntities(Bullet.class)) {
-            PositionPart positionPart = bullet.getPart(PositionPart.class);
-            MovingPart movingPart = bullet.getPart(MovingPart.class);
-            TimerPart timerPart = bullet.getPart(TimerPart.class);
+		for (Entity bullet : world.getEntities(Bullet.class)) {
+			PositionPart positionPart = bullet.getPart(PositionPart.class);
+			MovingPart movingPart = bullet.getPart(MovingPart.class);
+			TimerPart timerPart = bullet.getPart(TimerPart.class);
 
-            movingPart.setUp(true);
+			movingPart.setUp(true);
 
-            if (timerPart.getExpiration() < 0) {
-                world.removeEntity(bullet);
-            }
+			if (timerPart.getExpiration() < 0) {
+				world.removeEntity(bullet);
+			}
 
-            timerPart.process(gameData, bullet);
-            movingPart.process(gameData, bullet);
-            positionPart.process(gameData, bullet);
+			timerPart.process(gameData, bullet);
+			movingPart.process(gameData, bullet);
+			positionPart.process(gameData, bullet);
 
-            updateShape(bullet);
-        }
+			updateShape(bullet);
+		}
 
-    }
+	}
 
-    /**
-     * Updates the shape of a bullet entity based on its position and movement.
-     * @param bullet The bullet entity.
-     */
-    private void updateShape(Entity bullet) {
-        float[] shapex = bullet.getShapeX();
-        float[] shapey = bullet.getShapeY();
-        PositionPart positionPart = bullet.getPart(PositionPart.class);
-        float x = positionPart.getX();
-        float y = positionPart.getY();
-        float radians = positionPart.getRadians();
+	/**
+	 * Updates the shape of a bullet entity based on its position and movement.
+	 * @param bullet The bullet entity.
+	 */
+	private void updateShape(Entity bullet) {
+		float[] shapex = bullet.getShapeX();
+		float[] shapey = bullet.getShapeY();
+		PositionPart positionPart = bullet.getPart(PositionPart.class);
+		float x = positionPart.getX();
+		float y = positionPart.getY();
+		float radians = positionPart.getRadians();
 
-        shapex[0] = x;
-        shapey[0] = y;
+		shapex[0] = x;
+		shapey[0] = y;
 
-        shapex[1] = (float) (x + Math.cos(radians - 4 * 3.1415f / 5));
-        shapey[1] = (float) (y + Math.sin(radians - 4 * 3.1145f / 5));
+		shapex[1] = (float) (x + Math.cos(radians - 4 * 3.1415f / 5));
+		shapey[1] = (float) (y + Math.sin(radians - 4 * 3.1145f / 5));
 
-        bullet.setShapeX(shapex);
-        bullet.setShapeY(shapey);
+		bullet.setShapeX(shapex);
+		bullet.setShapeY(shapey);
 
-    }
+	}
 
-    /**
-     * Creates a new bullet entity.
-     * @param shooter The entity that fired the bullet.
-     * @param gameData The GameData object.
-     * @return The new bullet entity.
-     */
-    @Override
-    public Entity createBullet(Entity shooter, GameData gameData) {
-        PositionPart positionPart = shooter.getPart(PositionPart.class);
+	/**
+	 * Creates a new bullet entity.
+	 * @param shooter The entity that fired the bullet.
+	 * @param gameData The GameData object.
+	 * @return The new bullet entity.
+	 */
+	@Override
+	public Entity createBullet(Entity shooter, GameData gameData) {
+		PositionPart positionPart = shooter.getPart(PositionPart.class);
 
-        float x = positionPart.getX();
-        float y = positionPart.getY();
+		float x = positionPart.getX();
+		float y = positionPart.getY();
 
-        float radians = positionPart.getRadians();
-        float dt = gameData.getDelta();
-        float speed = 350;
+		float radians = positionPart.getRadians();
+		float dt = gameData.getDelta();
+		float speed = 350;
 
-        Entity bullet = new Bullet();
-        bullet.setRadius(2);
+		Entity bullet = new Bullet();
+		bullet.setRadius(2);
 
-        float bx = MathUtils.cos(radians) * shooter.getRadius() * bullet.getRadius();
-        float by = MathUtils.sin(radians) * shooter.getRadius() * bullet.getRadius();
+		float bx = MathUtils.cos(radians) * shooter.getRadius() * bullet.getRadius();
+		float by = MathUtils.sin(radians) * shooter.getRadius() * bullet.getRadius();
 
-        bullet.add(new PositionPart(bx + x, by + y, radians));
-        bullet.add(new LifePart(1));
-        bullet.add(new MovingPart(0, 50000, speed, 5));
-        bullet.add(new TimerPart(1));
+		bullet.add(new PositionPart(bx + x, by + y, radians));
+		bullet.add(new LifePart(1));
+		bullet.add(new MovingPart(0, 50000, speed, 5));
+		bullet.add(new TimerPart(1));
 
-        bullet.setShapeX(new float[2]);
-        bullet.setShapeY(new float[2]);
+		bullet.setShapeX(new float[2]);
+		bullet.setShapeY(new float[2]);
 
-        return bullet;
-    }
+		return bullet;
+	}
 }

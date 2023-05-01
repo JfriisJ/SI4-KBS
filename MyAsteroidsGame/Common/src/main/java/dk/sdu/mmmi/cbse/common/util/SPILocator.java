@@ -8,45 +8,45 @@ import java.util.*;
  */
 public class SPILocator {
 
-    @SuppressWarnings("rawtypes")
-    private static final Map<Class, ServiceLoader> loadermap = new HashMap<Class, ServiceLoader>();
+	@SuppressWarnings("rawtypes")
+	private static final Map<Class, ServiceLoader> loadermap = new HashMap<Class, ServiceLoader>();
 
-    private SPILocator() {}
+	private SPILocator() {}
 
-    /**
-     * Locates all implementations of the given service interface.
-     *
-     * @param service The service interface to locate implementations of.
-     * @return A list of all implementations of the given service interface.
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> List<T> locateAll(Class<T> service) {
-        ServiceLoader<T> loader = loadermap.get(service);
+	/**
+	 * Locates all implementations of the given service interface.
+	 *
+	 * @param service The service interface to locate implementations of.
+	 * @return A list of all implementations of the given service interface.
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> List<T> locateAll(Class<T> service) {
+		ServiceLoader<T> loader = loadermap.get(service);
 
-        boolean printStatement = false;
+		boolean printStatement = false;
 
-        if (loader == null) {
-            loader = ServiceLoader.load(service);
-            loadermap.put(service, loader);
-            printStatement = true;
-        }
+		if (loader == null) {
+			loader = ServiceLoader.load(service);
+			loadermap.put(service, loader);
+			printStatement = true;
+		}
 
-        List<T> list = new ArrayList<T>();
+		List<T> list = new ArrayList<T>();
 
-        if (loader != null) {
-            try {
-                for (T instance : loader) {
-                    list.add(instance);
-                }
-            } catch (ServiceConfigurationError serviceError) {
-                serviceError.printStackTrace();
-            }
-        }
+		if (loader != null) {
+			try {
+				for (T instance : loader) {
+					list.add(instance);
+				}
+			} catch (ServiceConfigurationError serviceError) {
+				serviceError.printStackTrace();
+			}
+		}
 
-        if (printStatement) {
-            System.out.println("Found: " + list.size() + " implementations for interface: " + service.getName());
-        }
+		if (printStatement) {
+			System.out.println("Found: " + list.size() + " implementations for interface: " + service.getName());
+		}
 
-        return list;
-    }
+		return list;
+	}
 }
