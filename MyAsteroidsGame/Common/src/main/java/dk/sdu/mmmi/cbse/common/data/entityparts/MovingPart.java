@@ -1,6 +1,5 @@
 package dk.sdu.mmmi.cbse.common.data.entityparts;
 
-import com.badlogic.gdx.math.MathUtils;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import static java.lang.Math.cos;
@@ -113,8 +112,8 @@ public class MovingPart
 		float dt = gameData.getDelta();
 
 		if (!this.startingSpeedSet){
-			dx = MathUtils.cos(radians) * speed;
-			dy = MathUtils.sin(radians) * speed;
+			dx = (float)Math.cos(radians) * speed;
+			dy = (float)Math.sin(radians) * speed;
 			this.startingSpeedSet = true;
 		}
 

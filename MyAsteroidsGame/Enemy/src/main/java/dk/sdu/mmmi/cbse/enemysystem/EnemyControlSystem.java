@@ -1,7 +1,5 @@
 package dk.sdu.mmmi.cbse.enemysystem;
 
-import com.badlogic.gdx.math.MathUtils;
-import dk.sdu.mmmi.cbse.Enemy;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -54,7 +52,7 @@ public class EnemyControlSystem implements IEntityProcessingService {
 			}
 			movingPart.setUp(true);
 
-			shootingPart.setShooting(MathUtils.random(0f, 1f) > 0.99f);
+			shootingPart.setShooting((float)Math.random() > 0.99f);
 
 			if (shootingPart.getShooting()){
 				for (IBulletCreateService bullet : SPILocator.locateAll(IBulletCreateService.class)) {

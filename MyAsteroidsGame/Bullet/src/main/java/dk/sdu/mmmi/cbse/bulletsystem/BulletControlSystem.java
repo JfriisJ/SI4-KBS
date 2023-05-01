@@ -1,7 +1,5 @@
 package dk.sdu.mmmi.cbse.bulletsystem;
 
-import com.badlogic.gdx.math.MathUtils;
-import dk.sdu.mmmi.cbse.Bullet;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
@@ -97,8 +95,8 @@ public class BulletControlSystem implements IEntityProcessingService, IBulletCre
 		Entity bullet = new Bullet();
 		bullet.setRadius(2);
 
-		float bx = MathUtils.cos(radians) * shooter.getRadius() * bullet.getRadius();
-		float by = MathUtils.sin(radians) * shooter.getRadius() * bullet.getRadius();
+		float bx = (float) Math.cos(radians) * shooter.getRadius() * bullet.getRadius();
+		float by = (float) Math.sin(radians) * shooter.getRadius() * bullet.getRadius();
 
 		bullet.add(new PositionPart(bx + x, by + y, radians));
 		bullet.add(new LifePart(1));

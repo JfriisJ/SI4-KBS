@@ -1,6 +1,5 @@
 package dk.sdu.mmmi.cbse.asteroidsystem;
 
-import com.badlogic.gdx.math.MathUtils;
 import dk.sdu.mmmi.cbse.common.services.IAsteroidSplitter;
 import dk.sdu.mmmi.cbse.common.data.Entity;
 import dk.sdu.mmmi.cbse.common.data.GameData;
@@ -31,10 +30,10 @@ public class AsteroidProcessingService implements IEntityProcessingService {
 			LifePart lifePart = asteroid.getPart(LifePart.class);
 
 			int numPoints = 12;
-			float speed = MathUtils.random() * 10f + 20f;
+			float speed = (float) Math.random() * 10f + 20f;
 			if (lifePart.getLife() == 1) {
 				numPoints = 8;
-				speed = MathUtils.random() * 30f + 70f;
+				speed = (float) Math.random() * 30f + 70f;
 			} else if (lifePart.getLife() == 2) {
 				numPoints = 10;
 				speed = (float) Math.random() * 10f + 50f;
@@ -80,8 +79,8 @@ public class AsteroidProcessingService implements IEntityProcessingService {
 		float radius = entity.getRadius();
 
 		for (int i = 0; i < numPoints; i++) {
-			shapex[i] = x + MathUtils.cos(angle + radians) * radius;
-			shapey[i] = y + MathUtils.sin(angle + radians) * radius;
+			shapex[i] = x + (float) Math.cos(angle + radians) * radius;
+			shapey[i] = y + (float) Math.sin(angle + radians) * radius;
 			angle += 2 * 3.1415f / numPoints;
 		}
 
