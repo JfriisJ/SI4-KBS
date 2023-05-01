@@ -20,8 +20,8 @@ public class EnemyPlugin implements IGamePluginService {
 	/**
 	 * Adds an enemy to the game.
 	 *
-	 * @param gameData
-	 * @param world
+	 * @param gameData the data of the game.
+	 * @param world   the world of the game.
 	 */
 	@Override
 	public void start(GameData gameData, World world) {
@@ -33,7 +33,7 @@ public class EnemyPlugin implements IGamePluginService {
 
 	/**
 	 * creates is responsible for creating the enemy before it can be added to the world
-	 * @param gameData
+	 * @param gameData the data of the game.
 	 * @return
 	 */
 	public Entity createEnemy(GameData gameData) {
@@ -64,8 +64,8 @@ public class EnemyPlugin implements IGamePluginService {
 	/**
 	 * Removes the enemy from the game.
 	 *
-	 * @param gameData
-	 * @param world
+	 * @param gameData the data of the game.
+	 * @param world   the world of the game.
 	 */
 	@Override
 	public void stop(GameData gameData, World world) {

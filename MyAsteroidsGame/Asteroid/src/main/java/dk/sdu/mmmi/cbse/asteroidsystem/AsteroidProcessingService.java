@@ -18,8 +18,8 @@ public class AsteroidProcessingService implements IEntityProcessingService {
 
 	/**
 	 * Updates the position, Life and movement of the asteroids.
-	 * @param gameData
-	 * @param world
+	 * @param gameData the data of the game.
+	 * @param world   the world of the game.
 	 */
 	@Override
 	public void process(GameData gameData, World world) {
@@ -65,7 +65,7 @@ public class AsteroidProcessingService implements IEntityProcessingService {
 
 	/**
 	 * Updates the shape of the asteroid.
-	 * @param entity
+	 * @param entity the entity to update.
 	 */
 	private void updateShape(Entity entity, int numPoints) {
 		PositionPart position = entity.getPart(PositionPart.class);

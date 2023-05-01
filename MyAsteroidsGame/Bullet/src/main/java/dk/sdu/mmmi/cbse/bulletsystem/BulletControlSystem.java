@@ -89,7 +89,6 @@ public class BulletControlSystem implements IEntityProcessingService, IBulletCre
 		float y = positionPart.getY();
 
 		float radians = positionPart.getRadians();
-		float dt = gameData.getDelta();
 		float speed = 350;
 
 		Entity bullet = new Bullet();
