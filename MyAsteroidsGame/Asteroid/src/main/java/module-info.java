@@ -9,5 +9,4 @@ module Asteroid {
 	provides IEntityProcessingService with dk.sdu.mmmi.cbse.asteroidsystem.AsteroidProcessingService;
 	provides IAsteroidSplitter with dk.sdu.mmmi.cbse.asteroidsystem.AsteroidSplitterImpl;
 
-	exports dk.sdu.mmmi.cbse.asteroidsystem;
 }
