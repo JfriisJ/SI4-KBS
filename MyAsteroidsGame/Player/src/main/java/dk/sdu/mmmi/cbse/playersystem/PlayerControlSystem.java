@@ -39,19 +39,16 @@ public class PlayerControlSystem implements IEntityProcessingService {
 			movingPart.setUp(gameData.getKeys().isDown(UP));
 			shootingPart.setShooting(gameData.getKeys().isDown(SPACE));
 
-			movingPart.process(gameData, player);
-			positionPart.process(gameData, player);
-			lifePart.process(gameData, player);
-			shootingPart.process(gameData, player);
-
-
-
 			if (shootingPart.getShooting()){
 				for (IBulletCreateService bullet : SPILocator.locateAll(IBulletCreateService.class)) {
 					world.addEntity(bullet.createBullet(player, gameData));
 
 				}
 			}
+			movingPart.process(gameData, player);
+			positionPart.process(gameData, player);
+			lifePart.process(gameData, player);
+			shootingPart.process(gameData, player);
 
 			updateShape(player);
 		}
