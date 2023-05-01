@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		int width = 1600;
-		int height = 1000;
+		int height = 720;
 
 		Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
 		cfg.setTitle("Asteroids");
