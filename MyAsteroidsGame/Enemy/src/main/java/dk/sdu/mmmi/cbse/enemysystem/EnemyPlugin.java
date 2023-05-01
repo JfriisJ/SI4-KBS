@@ -45,12 +45,6 @@ public class EnemyPlugin implements IGamePluginService {
 		float y = (gameData.getDisplayHeight() / 2) + 200;
 		float radians = 3.1415f / 2;
 
-		float[] colour = new float[4];
-		colour[0] = 1.0f;
-		colour[1] = 0.0f;
-		colour[2] = 0.0f;
-		colour[3] = 1.0f;
-
 		Entity enemyShip = new Enemy();
 		enemyShip.setRadius(8);
 		enemyShip.add(new MovingPart(deacceleration, acceleration, maxSpeed, rotationSpeed));
