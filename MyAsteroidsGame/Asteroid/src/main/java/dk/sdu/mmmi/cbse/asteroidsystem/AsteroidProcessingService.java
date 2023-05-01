@@ -42,25 +42,16 @@ public class AsteroidProcessingService implements IEntityProcessingService {
 			movingPart.setSpeed(speed);
 			movingPart.setUp(true);
 
-			movingPart.process(gameData, asteroid);
-			positionPart.process(gameData, asteroid);
-
 			if (lifePart.isIsHit()){
 				asteroidSplitter.createSplitAsteroid(asteroid, world);
 			}
 
+			lifePart.process(gameData, asteroid);
+			movingPart.process(gameData, asteroid);
+			positionPart.process(gameData, asteroid);
+
 			updateShape(asteroid, numPoints);
 		}
-	}
-	/**
-	 * Dependency Injection using OSGi Declarative Services
-	 */
-	public void setAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
-		this.asteroidSplitter = asteroidSplitter;
-	}
-
-	public void removeAsteroidSplitter(IAsteroidSplitter asteroidSplitter) {
-		this.asteroidSplitter = null;
 	}
 
 	/**
