@@ -34,7 +34,7 @@ public class PlayerPlugin implements IGamePluginService {
 	 * Creates a player before adding it to the world.
 	 *
 	 * @param gameData The game data containing information on the game state.
-	 * @return
+	 * @return The player entity.
 	 */
 	private Entity createPlayerShip(GameData gameData) {
 

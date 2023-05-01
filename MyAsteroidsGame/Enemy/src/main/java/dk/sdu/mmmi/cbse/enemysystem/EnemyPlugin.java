@@ -34,7 +34,7 @@ public class EnemyPlugin implements IGamePluginService {
 	/**
 	 * creates is responsible for creating the enemy before it can be added to the world
 	 * @param gameData the data of the game.
-	 * @return
+	 * @return the enemy entity.
 	 */
 	public Entity createEnemy(GameData gameData) {
 		float deacceleration = 10;
