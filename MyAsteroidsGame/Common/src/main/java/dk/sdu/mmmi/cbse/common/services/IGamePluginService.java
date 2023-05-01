@@ -11,8 +11,8 @@ public interface IGamePluginService {
 	 *     - Preconditions: The game has been initialized.
 	 *     - Postconditions: The game is running.
 	 *
-	 * @param gameData
-	 * @param world
+	 * @param gameData The game data containing information on the game state.
+	 * @param world The game world containing all entities.
 	 */
 	void start(GameData gameData, World world);
 
@@ -21,8 +21,8 @@ public interface IGamePluginService {
 	 *     - Preconditions: The game is running.
 	 *     - Postconditions: The game is stopped.
 	 *
-	 * @param gameData
-	 * @param world
+	 * @param gameData the game data
+	 * @param world the world
 	 */
 	void stop(GameData gameData, World world);
 }
