@@ -15,6 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <spring.version>6.0.8</spring.version>
     </properties>
 
     <repositories>
@@ -31,6 +32,50 @@
             <artifactId>shadedlibgdx</artifactId>
             <version>1.0.1-SNAPSHOT</version>
         </dependency>
+
+        <!-- Spring Context provides access to configured objects like a registry (a context).
+         It inherits its features from Spring Beans and adds support for internationalization,
+          event propagation, resource loading, and the transparent creation of contexts. -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--Basic building block for Spring that in conjunction with Spring Beans provides
+        dependency injection and IoC features.-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--Spring Beans provides the configuration framework and basic functionality to instantiate,
+         configure, and assemble java objects. -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Powerful Expression Language for querying and manipulating an object graph at runtime.
+        It is an extension of the unified expression language (unified EL)
+        as specified in the JSP 2.1 specification -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring AOP provides an Alliance-compliant aspect-oriented programming implementation
+         allowing you to define method interceptors and pointcuts to cleanly decouple code that
+          implements functionality that should be separated.-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>Common</artifactId>
