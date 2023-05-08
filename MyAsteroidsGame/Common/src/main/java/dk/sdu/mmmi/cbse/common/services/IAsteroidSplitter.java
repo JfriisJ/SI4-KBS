@@ -13,8 +13,8 @@ public interface IAsteroidSplitter {
 	 * - Preconditions: The entity exists and has been processed by ProcessingService.
 	 * - Postconditions: New asteroids have been created.
 	 *
-	 * @param e The entity representing the destroyed asteroid.
-	 * @param w The world in which the new asteroids will be created.
+	 * @param entity The entity representing the destroyed asteroid.
+	 * @param world The world in which the new asteroids will be created.
 	 */
-	void createSplitAsteroid(Entity e, World w);
+	void createSplitAsteroid(Entity entity, World world);
 }

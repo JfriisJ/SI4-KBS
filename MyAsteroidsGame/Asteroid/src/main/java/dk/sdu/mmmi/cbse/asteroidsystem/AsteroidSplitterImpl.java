@@ -16,13 +16,13 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter{
 
 	/**
 	 * Creates two new asteroids from an existing one.
-	 * @param e The existing asteroid.
+	 * @param entity The existing asteroid.
 	 * @param world The game world.
 	 */
 	@Override
-	public void createSplitAsteroid(Entity e, World world) {
-		PositionPart otherPos = e.getPart(PositionPart.class);
-		LifePart otherLife = e.getPart(LifePart.class);
+	public void createSplitAsteroid(Entity entity, World world) {
+		PositionPart otherPos = entity.getPart(PositionPart.class);
+		LifePart otherLife = entity.getPart(LifePart.class);
 		float radians = otherPos.getRadians();
 		int radius = 0;
 		float speed = 5;
@@ -34,7 +34,7 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter{
 			radius = 10;
 			speed = (float) Math.random() * 10f + 50f;
 		} else if (life <= 0) {
-			world.removeEntity(e);
+			world.removeEntity(entity);
 			return;
 		}
 
@@ -43,8 +43,8 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter{
 		asteroid1.setRadius(radius);
 		float radians1 = radians - 0.5f;
 
-		float by1 = (float) sin(radians1) * e.getRadius() * asteroid1.getRadius();
-		float bx1 = (float) cos(radians1) * e.getRadius() * asteroid1.getRadius();
+		float by1 = (float) sin(radians1) * entity.getRadius() * asteroid1.getRadius();
+		float bx1 = (float) cos(radians1) * entity.getRadius() * asteroid1.getRadius();
 
 		PositionPart astPositionPart1 = new PositionPart(otherPos.getX() + bx1, otherPos.getY() + by1, radians1);
 		asteroid1.add(new MovingPart(0, 5000, speed, 0));
@@ -58,8 +58,8 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter{
 		asteroid2.setRadius(radius);
 		float radians2 = radians + 0.5f;
 
-		float by2 = (float) sin(radians2) * e.getRadius() * asteroid2.getRadius();
-		float bx2 = (float) cos(radians2) * e.getRadius() * asteroid2.getRadius();
+		float by2 = (float) sin(radians2) * entity.getRadius() * asteroid2.getRadius();
+		float bx2 = (float) cos(radians2) * entity.getRadius() * asteroid2.getRadius();
 		PositionPart astPositionPart2 = new PositionPart(otherPos.getX() + bx2, otherPos.getY() + by2, radians2);
 
 		asteroid2.add(new MovingPart(0, 5000, speed, 0));
@@ -68,6 +68,6 @@ public class AsteroidSplitterImpl implements IAsteroidSplitter{
 
 		world.addEntity(asteroid2);
 
-		world.removeEntity(e);
+		world.removeEntity(entity);
 	}
 }
