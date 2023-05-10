@@ -12,11 +12,6 @@ import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
  */
 public class CollisionDetectionSystem implements IPostEntityProcessingService {
 
-	/**
-	 * Processes the entities in the world to detect collisions between them.
-	 * @param gameData The game data object.
-	 * @param world The world object.
-	 */
 	@Override
 	public void process(GameData gameData, World world) {
 

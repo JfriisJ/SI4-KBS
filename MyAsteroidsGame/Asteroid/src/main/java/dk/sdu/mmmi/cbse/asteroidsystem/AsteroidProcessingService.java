@@ -16,11 +16,6 @@ public class AsteroidProcessingService implements IEntityProcessingService {
 
 	private final IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
 
-	/**
-	 * Updates the position, Life and movement of the asteroids.
-	 * @param gameData the data of the game.
-	 * @param world   the world of the game.
-	 */
 	@Override
 	public void process(GameData gameData, World world) {
 

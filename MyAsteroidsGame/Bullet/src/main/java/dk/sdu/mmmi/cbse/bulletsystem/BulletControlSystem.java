@@ -24,11 +24,6 @@ public class BulletControlSystem implements IEntityProcessingService, IBulletCre
 
 	}
 
-	/**
-	 * Processes all the bullets in the game, updating their position and movement.
-	 * @param gameData The GameData object.
-	 * @param world The World object.
-	 */
 	@Override
 	public void process(GameData gameData, World world) {
 
@@ -75,12 +70,6 @@ public class BulletControlSystem implements IEntityProcessingService, IBulletCre
 
 	}
 
-	/**
-	 * Creates a new bullet entity.
-	 * @param shooter The entity that fired the bullet.
-	 * @param gameData The GameData object.
-	 * @return The new bullet entity.
-	 */
 	@Override
 	public Entity createBullet(Entity shooter, GameData gameData) {
 		PositionPart positionPart = shooter.getPart(PositionPart.class);

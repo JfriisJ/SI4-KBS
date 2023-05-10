@@ -10,23 +10,11 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
  */
 public class BulletPlugin implements IGamePluginService {
 
-	/**
-	 * Starts the plugin by adding the bullet entity to the game world.
-	 *
-	 * @param gameData The game data object.
-	 * @param world    The game world object.
-	 */
 	@Override
 	public void start(GameData gameData, World world) {
 
 	}
 
-	/**
-	 * Stops the plugin by removing the bullet entity from the game world.
-	 *
-	 * @param gameData The game data object.
-	 * @param world The game world object.
-	 */
 	@Override
 	public void stop(GameData gameData, World world) {
 		for (Entity e : world.getEntities()) {

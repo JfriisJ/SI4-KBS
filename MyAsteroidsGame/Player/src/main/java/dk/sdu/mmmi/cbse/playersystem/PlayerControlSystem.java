@@ -19,12 +19,6 @@ import static java.lang.Math.sqrt;
  */
 public class PlayerControlSystem implements IEntityProcessingService {
 
-	/**
-	 * Processes the player entity.
-	 *
-	 * @param gameData the game data
-	 * @param world the game world
-	 */
 	@Override
 	public void process(GameData gameData, World world) {
 

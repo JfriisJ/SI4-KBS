@@ -16,11 +16,6 @@ import java.util.Random;
 public class AsteroidPlugin implements IGamePluginService {
 	int numberOfAsteroids = 10;
 
-	/**
-	 * Start is responsible for adding the asteroid entity into the world
-	 * @param gameData
-	 * @param world
-	 */
 	@Override
 	public void start(GameData gameData, World world) {
 		// Add entities to the world
@@ -28,16 +23,9 @@ public class AsteroidPlugin implements IGamePluginService {
 			Entity asteroid = createAsteroid(gameData);
 			world.addEntity(asteroid);
 		}
-//		Entity asteroid = createAsteroid(gameData);
-//		world.addEntity(asteroid);
+
 	}
 
-
-	/**
-	 * Stop is responsible for removing the asteroid entity into the world
-	 * @param gameData
-	 * @param world
-	 */
 	@Override
 	public void stop(GameData gameData, World world) {
 		// Remove entities

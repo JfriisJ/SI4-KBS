@@ -16,12 +16,6 @@ public class PlayerPlugin implements IGamePluginService {
 
 	private Entity player;
 
-	/**
-	 * Adds a player to the game.
-	 *
-	 * @param gameData The game data containing information on the game state.
-	 * @param world The game world containing all entities.
-	 */
 	@Override
 	public void start(GameData gameData, World world) {
 
@@ -55,12 +49,6 @@ public class PlayerPlugin implements IGamePluginService {
 		return playerShip;
 	}
 
-	/**
-	 * Removes the player from the game.
-	 *
-	 * @param gameData The game data containing information on the game state.
-	 * @param world The game world containing all entities.
-	 */
 	@Override
 	public void stop(GameData gameData, World world) {
 		// Remove entities

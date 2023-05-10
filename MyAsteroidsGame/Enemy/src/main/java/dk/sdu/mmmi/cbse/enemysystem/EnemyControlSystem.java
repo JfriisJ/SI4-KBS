@@ -19,12 +19,7 @@ import static java.lang.Math.sqrt;
 public class EnemyControlSystem implements IEntityProcessingService {
 
 	int tickCounter = 0;
-	/**
-	 * Updates the position, Life and movement of the enemy.
-	 *
-	 * @param gameData the game data
-	 * @param world the game world
-	 */
+
 	@Override
 	public void process(GameData gameData, World world) {
 

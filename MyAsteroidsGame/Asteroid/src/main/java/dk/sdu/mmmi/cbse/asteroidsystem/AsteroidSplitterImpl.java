@@ -14,11 +14,6 @@ import static java.lang.Math.sin;
  */
 public class AsteroidSplitterImpl implements IAsteroidSplitter{
 
-	/**
-	 * Creates two new asteroids from an existing one.
-	 * @param entity The existing asteroid.
-	 * @param world The game world.
-	 */
 	@Override
 	public void createSplitAsteroid(Entity entity, World world) {
 		PositionPart otherPos = entity.getPart(PositionPart.class);

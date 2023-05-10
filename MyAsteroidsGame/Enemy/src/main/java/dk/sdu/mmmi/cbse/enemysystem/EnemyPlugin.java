@@ -16,13 +16,6 @@ public class EnemyPlugin implements IGamePluginService {
 
 	private Entity enemy;
 
-
-	/**
-	 * Adds an enemy to the game.
-	 *
-	 * @param gameData the data of the game.
-	 * @param world   the world of the game.
-	 */
 	@Override
 	public void start(GameData gameData, World world) {
 
@@ -55,12 +48,6 @@ public class EnemyPlugin implements IGamePluginService {
 		return enemyShip;
 	}
 
-	/**
-	 * Removes the enemy from the game.
-	 *
-	 * @param gameData the data of the game.
-	 * @param world   the world of the game.
-	 */
 	@Override
 	public void stop(GameData gameData, World world) {
 
