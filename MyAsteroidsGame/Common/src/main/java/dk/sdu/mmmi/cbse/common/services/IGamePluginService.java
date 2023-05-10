@@ -6,7 +6,7 @@ import dk.sdu.mmmi.cbse.common.data.World;
 public interface IGamePluginService {
 
 	/**
-	 * This interface is responsible for managing all the components of the game.
+	 * This interface is responsible for starting all the components of the game.
 	 * - `start`: Starts the game.
 	 *     - Preconditions: The game has been initialized.
 	 *     - Postconditions: The game is running.

@@ -14,7 +14,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
  */
 public class AsteroidProcessingService implements IEntityProcessingService {
 
-	private IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
+	private final IAsteroidSplitter asteroidSplitter = new AsteroidSplitterImpl();
 
 	/**
 	 * Updates the position, Life and movement of the asteroids.

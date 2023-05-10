@@ -25,8 +25,8 @@ public class Game implements ApplicationListener {
 
 	private static OrthographicCamera cam;
 	private ShapeRenderer sr;
-	private GameData gameData = new GameData();
-	private World world = new World();
+	private final GameData gameData = new GameData();
+	private final World world = new World();
 
 	/**
 	 * Called when the game is first created. Initializes the game world, entity processors, and plugins.

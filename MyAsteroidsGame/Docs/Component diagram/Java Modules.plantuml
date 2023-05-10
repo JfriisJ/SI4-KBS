@@ -1,0 +1,61 @@
+
+@startuml
+
+'skinparam skin sky
+
+component Asteroids
+
+component Bullets
+component Collisions
+component Common
+note left of Common
+  Contains common classes
+  and interfaces
+end note
+component Core
+note left of Core
+  The core of the game
+  Contains the main game loop
+  and the main game logic
+end note
+component Enemy
+component Player
+
+interface IAsteroidSplitter
+interface IBulletCreateService
+interface IGamePluginService
+interface IEntityProcessingService
+interface IPostEntityProcessingService
+
+Core -down- IAsteroidSplitter
+Core -down- IBulletCreateService
+Core -down- IGamePluginService
+Core -down- IEntityProcessingService
+Core -right- IPostEntityProcessingService
+
+Asteroids -up-( IAsteroidSplitter
+Asteroids -up-( IGamePluginService
+Asteroids -up-( IEntityProcessingService
+
+Bullets -up-( IBulletCreateService
+Bullets -up-( IGamePluginService
+Bullets -up-( IEntityProcessingService
+
+Collisions -left-( IPostEntityProcessingService
+
+Enemy -up-( IEntityProcessingService
+Enemy -up-( IGamePluginService
+
+Player -up-( IEntityProcessingService
+Player -up-( IGamePluginService
+
+
+Common -.up- Core
+Common -.up- Asteroids
+Common -.up- Bullets
+Common -.up- Collisions
+Common -.up- Enemy
+Common -.up- Player
+
+
+@enduml

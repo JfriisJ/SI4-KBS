@@ -1,0 +1,31 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Game {
+  + Game(): 
+  - update(): void
+  + dispose(): void
+  - draw(): void
+  + resume(): void
+  + resize(int, int): void
+  + create(): void
+  + render(): void
+  + pause(): void
+   entityProcessingServices: Collection<IEntityProcessingService>
+   pluginServices: Collection<IGamePluginService>
+   postEntityProcessingServices: Collection<IPostEntityProcessingService>
+}
+class GameInputProcessor {
+  + GameInputProcessor(GameData): 
+  + keyDown(int): boolean
+  + keyUp(int): boolean
+}
+class Main {
+  + Main(): 
+  + main(String[]): void
+}
+
+@enduml

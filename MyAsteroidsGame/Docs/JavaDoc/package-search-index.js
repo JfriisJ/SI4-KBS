@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"m":"Asteroid","l":"dk.sdu.mmmi.cbse.asteroidsystem"}];updateSearchResults();

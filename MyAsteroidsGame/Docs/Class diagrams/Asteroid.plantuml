@@ -1,0 +1,26 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Asteroid {
+  + Asteroid(): 
+}
+class AsteroidPlugin {
+  + AsteroidPlugin(): 
+  + start(GameData, World): void
+  - createAsteroid(GameData): Entity
+  + stop(GameData, World): void
+}
+class AsteroidProcessingService {
+  + AsteroidProcessingService(): 
+  + process(GameData, World): void
+  - updateShape(Entity, int): void
+}
+class AsteroidSplitterImpl {
+  + AsteroidSplitterImpl(): 
+  + createSplitAsteroid(Entity, World): void
+}
+
+@enduml

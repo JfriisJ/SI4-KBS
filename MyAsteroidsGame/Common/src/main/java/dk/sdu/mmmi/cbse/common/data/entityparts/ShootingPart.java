@@ -9,7 +9,7 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
  */
 public class ShootingPart implements EntityPart {
 
-	private float cooldownTime;
+	private final float cooldownTime;
 	private float cooldown;
 	private boolean shooting;
 

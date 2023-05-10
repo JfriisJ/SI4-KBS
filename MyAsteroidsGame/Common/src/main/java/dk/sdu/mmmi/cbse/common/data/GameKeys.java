@@ -32,9 +32,7 @@ public class GameKeys {
 	 * Updates the state of the keys.
 	 */
 	public void update() {
-		for (int i = 0; i < NUM_KEYS; i++) {
-			pkeys[i] = keys[i];
-		}
+		System.arraycopy(keys, 0, pkeys, 0, NUM_KEYS);
 	}
 
 	/**

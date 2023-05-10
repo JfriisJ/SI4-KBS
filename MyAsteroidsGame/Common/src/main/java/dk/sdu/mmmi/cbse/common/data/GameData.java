@@ -26,7 +26,7 @@ public class GameData {
 	/**
 	 * The list of events.
 	 */
-	private List<Event> events = new CopyOnWriteArrayList<>();
+	private final List<Event> events = new CopyOnWriteArrayList<>();
 
 	/**
 	 * Adds an event to the list.
