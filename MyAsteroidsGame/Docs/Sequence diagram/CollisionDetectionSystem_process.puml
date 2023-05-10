@@ -1,0 +1,34 @@
+@startuml
+participant Core
+participant CollisionDetectionSystem
+participant Entity
+participant World
+
+activate Core
+Core -> CollisionDetectionSystem : process
+activate CollisionDetectionSystem
+CollisionDetectionSystem -> Entity : getLifeParts
+activate Entity
+Entity --> CollisionDetectionSystem : lifePart
+deactivate Entity
+CollisionDetectionSystem -> CollisionDetectionSystem : collides()
+activate CollisionDetectionSystem
+CollisionDetectionSystem -> Entity: getPositionPart1
+activate Entity
+Entity --> CollisionDetectionSystem : positionPart1
+deactivate Entity
+CollisionDetectionSystem -> Entity: getPositionPart2
+activate Entity
+Entity --> CollisionDetectionSystem : positionPart2
+deactivate Entity
+deactivate CollisionDetectionSystem
+CollisionDetectionSystem -> World : removeEntity
+activate World
+World --> CollisionDetectionSystem : remove
+deactivate World
+
+
+
+
+
+@enduml

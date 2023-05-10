@@ -1,0 +1,22 @@
+@startuml
+participant Core
+Participant EnemyPlugin
+Participant Entity
+Participant World
+
+activate Core
+Core -> EnemyPlugin : start()
+activate EnemyPlugin
+EnemyPlugin -> EnemyPlugin : createEnemy()
+activate EnemyPlugin
+EnemyPlugin -> Entity:addEntityParts
+activate Entity
+Entity --> EnemyPlugin
+deactivate Entity
+deactivate EnemyPlugin
+EnemyPlugin -> World:addEntity
+activate World
+World --> EnemyPlugin
+
+
+@enduml

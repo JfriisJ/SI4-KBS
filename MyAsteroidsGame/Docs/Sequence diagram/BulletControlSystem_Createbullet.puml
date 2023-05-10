@@ -1,0 +1,56 @@
+@startuml
+    participant Player
+    participant PlayerControlSystem
+    participant World
+    participant Entity
+    participant GameKeys
+    participant SPILocator
+    participant IBulletCreateService
+    participant MovingPart
+    participant Bullet
+    participant Collision
+
+    activate Player
+    Player ->> PlayerControlSystem: process()
+    deactivate Player
+    activate PlayerControlSystem
+    PlayerControlSystem ->> World: getEntities
+    activate World
+    World -->> PlayerControlSystem: Entities
+    deactivate World
+    PlayerControlSystem->>Entity: getParts
+    activate Entity
+    Entity-->>PlayerControlSystem: Parts
+    deactivate Entity
+    PlayerControlSystem->>GameKeys: isDown
+    activate GameKeys
+    GameKeys-->>PlayerControlSystem: true
+    deactivate GameKeys
+    PlayerControlSystem->>SPILocator: locateAll
+    activate SPILocator
+    SPILocator-->>PlayerControlSystem: List of SPIs
+    deactivate SPILocator
+    PlayerControlSystem->>IBulletCreateService: createBullet
+    activate IBulletCreateService
+    IBulletCreateService-->>PlayerControlSystem: bulletEntity
+    deactivate IBulletCreateService
+    PlayerControlSystem->>World: addBulletEntity
+    activate World
+    World-->>PlayerControlSystem:
+    deactivate World
+
+'    PlayerControlSystem->>MovingPart: process
+'    activate MovingPart
+'    MovingPart->>Entity:getPart
+'    activate Entity
+'    Entity-->>MovingPart: Part
+'    deactivate Entity
+'    MovingPart-->>PlayerControlSystem:
+'    deactivate MovingPart
+'
+'    PlayerControlSystem->>PositionPart: process
+'    activate PositionPart
+'    PositionPart->>Entity:getPar
+
+
+@enduml
