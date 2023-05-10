@@ -1,9 +1,5 @@
 @startuml
 
-!theme plain
-top to bottom direction
-skinparam linetype ortho
-
 class CollisionDetectionSystem {
   + CollisionDetectionSystem(): 
   + collides(Entity, Entity): Boolean

@@ -1,0 +1,18 @@
+@startuml
+
+class Bullet {
+  + Bullet(): 
+}
+class BulletControlSystem {
+  + BulletControlSystem(): 
+  + process(GameData, World): void
+  - updateShape(Entity): void
+  + createBullet(Entity, GameData): Entity
+}
+class BulletPlugin {
+  + BulletPlugin(): 
+  + stop(GameData, World): void
+  + start(GameData, World): void
+}
+
+@enduml

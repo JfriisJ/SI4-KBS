@@ -1,0 +1,144 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Entity {
+  + Entity(): 
+  - shapeY: float[]
+  - dists: float[]
+  - ID: UUID
+  - shapeX: float[]
+  - radius: float
+  + add(EntityPart): void
+  + remove(Class): void
+  + getPart(Class): E
+  + isType(Type): boolean
+   radius: float
+   shapeY: float[]
+   shapeX: float[]
+   ID: String
+   dists: float[]
+}
+interface EntityPart << interface >> {
+  + process(GameData, Entity): void
+}
+class Event {
+  + Event(Entity): 
+  - source: Entity
+   source: Entity
+}
+class GameData {
+  + GameData(): 
+  - events: List<Event>
+  - delta: float
+  - keys: GameKeys
+  - displayWidth: float
+  - displayHeight: float
+  + getEvents(Class<E>, String): List<Event>
+  + addEvent(Event): void
+  + removeEvent(Event): void
+   keys: GameKeys
+   displayWidth: float
+   events: List<Event>
+   displayHeight: float
+   delta: float
+}
+class GameKeys {
+  + GameKeys(): 
+  + update(): void
+  + setKey(int, boolean): void
+  + isPressed(int): boolean
+  + isDown(int): boolean
+}
+interface IAsteroidSplitter << interface >> {
+  + createSplitAsteroid(Entity, World): void
+}
+interface IBulletCreateService << interface >> {
+  + createBullet(Entity, GameData): Entity
+}
+interface IEntityProcessingService << interface >> {
+  + process(GameData, World): void
+}
+interface IGamePluginService << interface >> {
+  + start(GameData, World): void
+  + stop(GameData, World): void
+}
+interface IPostEntityProcessingService << interface >> {
+  + process(GameData, World): void
+}
+class LifePart {
+  + LifePart(int): 
+  - dead: boolean
+  - life: int
+  + process(GameData, Entity): void
+   isHit: boolean
+   dead: boolean
+   life: int
+}
+class MovingPart {
+  + MovingPart(float, float, float, float): 
+  + MovingPart(float, float, float, float, float): 
+  - right: boolean
+  - left: boolean
+  - up: boolean
+  - deceleration: float
+  - speed: float
+  - maxSpeed: float
+  - rotationSpeed: float
+  - acceleration: float
+  + process(GameData, Entity): void
+   maxSpeed: float
+   speed: float
+   acceleration: float
+   right: boolean
+   up: boolean
+   deceleration: float
+   left: boolean
+   rotationSpeed: float
+}
+class PositionPart {
+  + PositionPart(float, float, float): 
+  - y: float
+  - radians: float
+  - x: float
+  + process(GameData, Entity): void
+  + setPosition(float, float): void
+   y: float
+   x: float
+   radians: float
+}
+class SPILocator {
+  - SPILocator(): 
+  + locateAll(Class<T>): List<T>
+}
+class ShootingPart {
+  + ShootingPart(float): 
+  - shooting: boolean
+  + process(GameData, Entity): void
+   shooting: boolean
+}
+class TimerPart {
+  + TimerPart(float): 
+  - expiration: float
+  + reduceExpiration(float): void
+  + process(GameData, Entity): void
+   expiration: float
+}
+class World {
+  + World(): 
+  + addEntity(Entity): String
+  + removeEntity(String): void
+  + removeEntity(Entity): void
+  + getEntities(Class<E>[]): List<Entity>
+  + getEntity(String): Entity
+   entities: Collection<Entity>
+}
+
+LifePart                      -[#008200,dashed]-^  EntityPart                   
+MovingPart                    -[#008200,dashed]-^  EntityPart                   
+PositionPart                  -[#008200,dashed]-^  EntityPart                   
+ShootingPart                  -[#008200,dashed]-^  EntityPart                   
+TimerPart                     -[#008200,dashed]-^  EntityPart                   
+@enduml

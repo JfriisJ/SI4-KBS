@@ -1,0 +1,22 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class Enemy {
+  + Enemy(): 
+}
+class EnemyControlSystem {
+  + EnemyControlSystem(): 
+  - updateShape(Entity): void
+  + process(GameData, World): void
+}
+class EnemyPlugin {
+  + EnemyPlugin(): 
+  + start(GameData, World): void
+  + stop(GameData, World): void
+  + createEnemy(GameData): Entity
+}
+
+@enduml

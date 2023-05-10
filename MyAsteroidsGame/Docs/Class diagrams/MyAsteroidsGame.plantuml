@@ -1,0 +1,245 @@
+@startuml
+
+skinparam linetype ortho
+left to right direction
+class Asteroid {
+  + Asteroid(): 
+}
+class AsteroidPlugin {
+  + AsteroidPlugin(): 
+  + start(GameData, World): void
+  + stop(GameData, World): void
+  - createAsteroid(GameData): Entity
+}
+class AsteroidProcessingService {
+  + AsteroidProcessingService(): 
+  + process(GameData, World): void
+  - updateShape(Entity, int): void
+}
+class AsteroidSplitterImpl {
+  + AsteroidSplitterImpl(): 
+  + createSplitAsteroid(Entity, World): void
+}
+class Bullet {
+  + Bullet(): 
+}
+class BulletControlSystem {
+  + BulletControlSystem(): 
+  + process(GameData, World): void
+  - updateShape(Entity): void
+  + createBullet(Entity, GameData): Entity
+}
+class BulletPlugin {
+  + BulletPlugin(): 
+  + stop(GameData, World): void
+  + start(GameData, World): void
+}
+class CollisionDetectionSystem {
+  + CollisionDetectionSystem(): 
+  + process(GameData, World): void
+  + collides(Entity, Entity): Boolean
+}
+class Enemy {
+  + Enemy(): 
+}
+class EnemyControlSystem {
+  + EnemyControlSystem(): 
+  - updateShape(Entity): void
+  + process(GameData, World): void
+}
+class EnemyPlugin {
+  + EnemyPlugin(): 
+  + start(GameData, World): void
+  + stop(GameData, World): void
+  + createEnemy(GameData): Entity
+}
+class Entity {
+  + Entity(): 
+  - shapeY: float[]
+  - dists: float[]
+  - ID: UUID
+  - shapeX: float[]
+  - radius: float
+  + add(EntityPart): void
+  + remove(Class): void
+  + getPart(Class): E
+  + isType(Type): boolean
+   radius: float
+   shapeY: float[]
+   shapeX: float[]
+   ID: String
+   dists: float[]
+}
+interface EntityPart << interface >> {
+  + process(GameData, Entity): void
+}
+class Event {
+  + Event(Entity): 
+  - source: Entity
+   source: Entity
+}
+class Game {
+  + Game(): 
+  - update(): void
+  + resume(): void
+  + resize(int, int): void
+  + create(): void
+  - draw(): void
+  + render(): void
+  + pause(): void
+  + dispose(): void
+   entityProcessingServices: Collection<IEntityProcessingService>
+   pluginServices: Collection<IGamePluginService>
+   postEntityProcessingServices: Collection<IPostEntityProcessingService>
+}
+class GameData {
+  + GameData(): 
+  - events: List<Event>
+  - delta: float
+  - keys: GameKeys
+  - displayWidth: float
+  - displayHeight: float
+  + getEvents(Class<E>, String): List<Event>
+  + addEvent(Event): void
+  + removeEvent(Event): void
+   keys: GameKeys
+   displayWidth: float
+   events: List<Event>
+   displayHeight: float
+   delta: float
+}
+class GameInputProcessor {
+  + GameInputProcessor(GameData): 
+  + keyDown(int): boolean
+  + keyUp(int): boolean
+}
+class GameKeys {
+  + GameKeys(): 
+  + update(): void
+  + setKey(int, boolean): void
+  + isPressed(int): boolean
+  + isDown(int): boolean
+}
+interface IAsteroidSplitter << interface >> {
+  + createSplitAsteroid(Entity, World): void
+}
+interface IBulletCreateService << interface >> {
+  + createBullet(Entity, GameData): Entity
+}
+interface IEntityProcessingService << interface >> {
+  + process(GameData, World): void
+}
+interface IGamePluginService << interface >> {
+  + start(GameData, World): void
+  + stop(GameData, World): void
+}
+interface IPostEntityProcessingService << interface >> {
+  + process(GameData, World): void
+}
+class LifePart {
+  + LifePart(int): 
+  - dead: boolean
+  - life: int
+  + process(GameData, Entity): void
+   isHit: boolean
+   dead: boolean
+   life: int
+}
+class Main {
+  + Main(): 
+  + main(String[]): void
+}
+class MovingPart {
+  + MovingPart(float, float, float, float): 
+  + MovingPart(float, float, float, float, float): 
+  - right: boolean
+  - left: boolean
+  - up: boolean
+  - deceleration: float
+  - speed: float
+  - maxSpeed: float
+  - rotationSpeed: float
+  - acceleration: float
+  + process(GameData, Entity): void
+   maxSpeed: float
+   speed: float
+   acceleration: float
+   right: boolean
+   up: boolean
+   deceleration: float
+   left: boolean
+   rotationSpeed: float
+}
+class Player {
+  + Player(): 
+}
+class PlayerControlSystem {
+  + PlayerControlSystem(): 
+  + process(GameData, World): void
+  - updateShape(Entity): void
+}
+class PlayerPlugin {
+  + PlayerPlugin(): 
+  + start(GameData, World): void
+  + stop(GameData, World): void
+  - createPlayerShip(GameData): Entity
+}
+class PositionPart {
+  + PositionPart(float, float, float): 
+  - y: float
+  - radians: float
+  - x: float
+  + process(GameData, Entity): void
+  + setPosition(float, float): void
+   y: float
+   x: float
+   radians: float
+}
+class SPILocator {
+  - SPILocator(): 
+  + locateAll(Class<T>): List<T>
+}
+class ShootingPart {
+  + ShootingPart(float): 
+  - shooting: boolean
+  + process(GameData, Entity): void
+   shooting: boolean
+}
+class TimerPart {
+  + TimerPart(float): 
+  - expiration: float
+  + reduceExpiration(float): void
+  + process(GameData, Entity): void
+   expiration: float
+}
+class World {
+  + World(): 
+  + addEntity(Entity): String
+  + removeEntity(String): void
+  + removeEntity(Entity): void
+  + getEntities(Class<E>[]): List<Entity>
+  + getEntity(String): Entity
+   entities: Collection<Entity>
+}
+
+Asteroid                      -[#000082,plain]-^  Entity
+AsteroidPlugin                -[#008200,dashed]-^  IGamePluginService           
+AsteroidProcessingService     -[#008200,dashed]-^  IEntityProcessingService     
+AsteroidSplitterImpl          -[#008200,dashed]-^  IAsteroidSplitter            
+Bullet                        -[#000082,plain]-^  Entity
+BulletControlSystem           -[#008200,dashed]-^  IBulletCreateService         
+BulletControlSystem           -[#008200,dashed]-^  IEntityProcessingService     
+BulletPlugin                  -[#008200,dashed]-^  IGamePluginService           
+CollisionDetectionSystem      -[#008200,dashed]-^  IPostEntityProcessingService 
+Enemy                         -[#000082,plain]-^  Entity
+EnemyControlSystem            -[#008200,dashed]-^  IEntityProcessingService     
+EnemyPlugin                   -[#008200,dashed]-^  IGamePluginService           
+LifePart                      -[#008200,dashed]-^  EntityPart                   
+MovingPart                    -[#008200,dashed]-^  EntityPart                   
+Player                        -[#000082,plain]-^  Entity                       
+PlayerControlSystem           -[#008200,dashed]-^  IEntityProcessingService     
+PlayerPlugin                  -[#008200,dashed]-^  IGamePluginService           
+PositionPart                  -[#008200,dashed]-^  EntityPart                   
+ShootingPart                  -[#008200,dashed]-^  EntityPart                   
+TimerPart                     -[#008200,dashed]-^  EntityPart                   
+@enduml

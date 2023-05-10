@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"dk.sdu.mmmi.cbse.asteroidsystem","l":"Asteroid"},{"p":"dk.sdu.mmmi.cbse.asteroidsystem","l":"AsteroidPlugin"},{"p":"dk.sdu.mmmi.cbse.asteroidsystem","l":"AsteroidProcessingService"},{"p":"dk.sdu.mmmi.cbse.asteroidsystem","l":"AsteroidSplitterImpl"}];updateSearchResults();

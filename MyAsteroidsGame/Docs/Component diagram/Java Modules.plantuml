@@ -1,8 +1,7 @@
 
 @startuml
 
-'skinparam skin sky
-
+skinparam linetype polyline
 component Asteroids
 
 component Bullets

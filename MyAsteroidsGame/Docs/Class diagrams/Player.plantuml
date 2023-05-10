@@ -1,0 +1,18 @@
+@startuml
+
+class Player {
+  + Player(): 
+}
+class PlayerControlSystem {
+  + PlayerControlSystem(): 
+  - updateShape(Entity): void
+  + process(GameData, World): void
+}
+class PlayerPlugin {
+  + PlayerPlugin(): 
+  + stop(GameData, World): void
+  + start(GameData, World): void
+  - createPlayerShip(GameData): Entity
+}
+
+@enduml
