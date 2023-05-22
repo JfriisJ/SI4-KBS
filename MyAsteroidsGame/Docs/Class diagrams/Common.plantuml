@@ -1,11 +1,9 @@
 @startuml
-
-!theme plain
-top to bottom direction
+left to right direction
 skinparam linetype ortho
 
 class Entity {
-  + Entity(): 
+  + Entity():
   - shapeY: float[]
   - dists: float[]
   - ID: UUID
@@ -25,12 +23,12 @@ interface EntityPart << interface >> {
   + process(GameData, Entity): void
 }
 class Event {
-  + Event(Entity): 
+  + Event(Entity):
   - source: Entity
    source: Entity
 }
 class GameData {
-  + GameData(): 
+  + GameData():
   - events: List<Event>
   - delta: float
   - keys: GameKeys
@@ -46,7 +44,7 @@ class GameData {
    delta: float
 }
 class GameKeys {
-  + GameKeys(): 
+  + GameKeys():
   + update(): void
   + setKey(int, boolean): void
   + isPressed(int): boolean
@@ -110,7 +108,7 @@ class PositionPart {
    radians: float
 }
 class SPILocator {
-  - SPILocator(): 
+  - SPILocator():
   + locateAll(Class<T>): List<T>
 }
 class ShootingPart {
@@ -127,7 +125,7 @@ class TimerPart {
    expiration: float
 }
 class World {
-  + World(): 
+  + World():
   + addEntity(Entity): String
   + removeEntity(String): void
   + removeEntity(Entity): void

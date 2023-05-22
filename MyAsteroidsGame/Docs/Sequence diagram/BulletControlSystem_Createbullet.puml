@@ -6,9 +6,9 @@
     participant GameKeys
     participant SPILocator
     participant IBulletCreateService
-    participant MovingPart
-    participant Bullet
-    participant Collision
+'    participant MovingPart
+'    participant Bullet
+'    participant Collision
 
     activate Player
     Player ->> PlayerControlSystem: process()

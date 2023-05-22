@@ -27,8 +27,4 @@ activate World
 World --> CollisionDetectionSystem : remove
 deactivate World
 
-
-
-
-
 @enduml

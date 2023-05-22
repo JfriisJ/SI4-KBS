@@ -2,10 +2,10 @@
 @startuml
 
 skinparam linetype polyline
-component Asteroids
+component Asteroid
 
-component Bullets
-component Collisions
+component Bullet
+component Collision
 component Common
 note left of Common
   Contains common classes
@@ -32,15 +32,15 @@ Core -down- IGamePluginService
 Core -down- IEntityProcessingService
 Core -right- IPostEntityProcessingService
 
-Asteroids -up-( IAsteroidSplitter
-Asteroids -up-( IGamePluginService
-Asteroids -up-( IEntityProcessingService
+Asteroid -up-( IAsteroidSplitter
+Asteroid -up-( IGamePluginService
+Asteroid -up-( IEntityProcessingService
 
-Bullets -up-( IBulletCreateService
-Bullets -up-( IGamePluginService
-Bullets -up-( IEntityProcessingService
+Bullet -up-( IBulletCreateService
+Bullet -up-( IGamePluginService
+Bullet -up-( IEntityProcessingService
 
-Collisions -left-( IPostEntityProcessingService
+Collision -left-( IPostEntityProcessingService
 
 Enemy -up-( IEntityProcessingService
 Enemy -up-( IGamePluginService
@@ -50,9 +50,9 @@ Player -up-( IGamePluginService
 
 
 Common -.up- Core
-Common -.up- Asteroids
-Common -.up- Bullets
-Common -.up- Collisions
+Common -.up- Asteroid
+Common -.up- Bullet
+Common -.up- Collision
 Common -.up- Enemy
 Common -.up- Player
 
