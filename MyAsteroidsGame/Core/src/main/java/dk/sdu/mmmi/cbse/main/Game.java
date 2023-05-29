@@ -46,9 +46,14 @@ public class Game implements ApplicationListener {
 		Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
 
 		// Lookup all Game Plugins using ServiceLoader
-		for (IGamePluginService iGamePlugin : getPluginServices()) {
-			iGamePlugin.start(gameData, world);
+		try {
+			for (IGamePluginService iGamePlugin : getPluginServices()) {
+				iGamePlugin.start(gameData, world);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 
 	}
 
@@ -63,24 +68,37 @@ public class Game implements ApplicationListener {
 
 		gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-		update();
+		updateProcess();
 
 		draw();
 
 		gameData.getKeys().update();
+		updatePostProcess();
+
+	}
+
+	private void updatePostProcess() {
+		try {
+			for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+				postEntityProcessorService.process(gameData, world);
+			}
+	}catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	/**
 	 * Updates the game world by processing all entity processors and post-entity processors.
 	 */
-	private void update() {
+	private void updateProcess() {
 
-		// Update
-		for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-			entityProcessorService.process(gameData, world);
-		}
-		for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-			postEntityProcessorService.process(gameData, world);
+		try {
+			for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+				entityProcessorService.process(gameData, world);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
