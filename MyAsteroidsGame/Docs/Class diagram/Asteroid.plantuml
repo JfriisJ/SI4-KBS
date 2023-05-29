@@ -1,0 +1,25 @@
+@startuml
+skinparam classAttributeIconSize 0
+top to bottom direction
+skinparam linetype ortho
+
+class Asteroid {
+  ~ Asteroid(): 
+}
+class AsteroidPlugin {
+  + AsteroidPlugin(): 
+  - createAsteroid(GameData): Entity
+  + start(GameData, World): void
+  + stop(GameData, World): void
+}
+class AsteroidProcessingService {
+  + AsteroidProcessingService(): 
+  - updateShape(Entity, int): void
+  + process(GameData, World): void
+}
+class AsteroidSplitterImpl {
+  + AsteroidSplitterImpl(): 
+  + createSplitAsteroid(Entity, World): void
+}
+
+@enduml
