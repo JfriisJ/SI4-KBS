@@ -18,42 +18,38 @@
     </modules>
 
     <properties>
-        <java>java</java> <!-- This was missing, and is required for ${java} to work in executable -->
+        <java>java</java>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>dk.sdu.mmmi.cbse</groupId>
-                <artifactId>shadedlibgdx</artifactId>
-                <version>1.0.1-SNAPSHOT</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>shadedlibgdx</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
-            <!-- Clean -->
+            <!-- maven clean -->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.1.0</version>
             </plugin>
-            <!-- Compile -->
+            <!-- maven compiler -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.10.1</version>
-                <configuration>
-                    <fork>true</fork>
-                </configuration>
+                <version>3.8.1</version>
             </plugin>
-            <!-- execute the resulting project -->
+
+            <!-- execute the resulting jar -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.6.0</version>
+                <version>3.1.0</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -71,13 +67,6 @@
                         <argument>-Djava.library.path=libs</argument>
                         <argument>--module-path=mods-mvn</argument>
                         <argument>--class-path=libs/*</argument>
-                        <!-- because spark.core is an automatic module and actually required,
-                        monitor.observer.zero would be resolved as well and does not need
-                        to be added explicitly;
-                        I still wanted to do it for clarity, but for some reason that results
-                        in "java.lang.module.FindException: Module monitor.observer.zero not found";
-                        strange... -->
-                        <!--<argument>&#45;&#45;add-modules=monitor.observer.zero</argument>-->
                         <argument>--module=Core/dk.sdu.mmmi.cbse.main.Main</argument>
                     </arguments>
                 </configuration>
