@@ -37,4 +37,8 @@ class PlayerPluginTest {
 		assertEquals(2, lifePart.getLife());
 	}
 
+	@Disabled
+	void stop() {
+	}
+
 }
