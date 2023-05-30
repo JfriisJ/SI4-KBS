@@ -8,8 +8,8 @@ public interface IProcessor {
 	/**
 	 * Process System
 	 *
-	 * @param gameData
-	 * @param world
+	 * @param gameData data about the game
+	 * @param world   the game world
 	 */
 	void process(GameData gameData, World world);
 }

@@ -114,24 +114,6 @@ public class Game implements ApplicationListener {
 		}
 	}
 
-	/**
-	 * This method returns a collection of all the entity processing services that have been located using ServiceLoader.
-	 *
-	 * @return a collection of all the entity processing services
-	 */
-	private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-		return SPILocator.locateAll(IEntityProcessingService.class);
-	}
-
-	/**
-	 * This method returns a collection of all the post-entity processing services that have been located using ServiceLoader.
-	 *
-	 * @return a collection of all the post-entity processing services
-	 */
-	private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-		return SPILocator.locateAll(IPostEntityProcessingService.class);
-	}
-
 	@Override
 	public void resize(int width, int height) {
 	}
