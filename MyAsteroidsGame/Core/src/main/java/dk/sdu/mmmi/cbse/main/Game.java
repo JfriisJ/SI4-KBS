@@ -12,21 +12,34 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.util.SPILocator;
+import dk.sdu.mmmi.cbse.components.IGameEntityPluginServiceInjection;
+import dk.sdu.mmmi.cbse.components.IProcessor;
 import dk.sdu.mmmi.cbse.managers.GameInputProcessor;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+
 
 /**
  * The Game class is the main class for the game application. It creates a new game world and updates and draws the game world
  * in each iteration of the main loop. The class also holds a list of entity processors and plugins that are used to process and update
  * the entities in the game world.
  */
+@Component("Game")
 public class Game implements ApplicationListener {
 
 	private static OrthographicCamera cam;
 	private ShapeRenderer sr;
 	private final GameData gameData = new GameData();
 	private final World world = new World();
+	private final AnnotationConfigApplicationContext components;
+
+	public Game(){
+		this.components = new AnnotationConfigApplicationContext();
+		this.components.scan("dk.sdu.mmmi.cbse.components");
+		this.components.refresh();
+	}
 
 	/**
 	 * Called when the game is first created. Initializes the game world, entity processors, and plugins.
@@ -46,9 +59,7 @@ public class Game implements ApplicationListener {
 		Gdx.input.setInputProcessor(new GameInputProcessor(gameData));
 
 		// Lookup all Game Plugins using ServiceLoader
-		for (IGamePluginService iGamePlugin : getPluginServices()) {
-			iGamePlugin.start(gameData, world);
-		}
+		((IGameEntityPluginServiceInjection) components.getBean("IGameEntityPluginServiceInjection")).startPlugins(gameData, world);
 
 	}
 
@@ -68,6 +79,12 @@ public class Game implements ApplicationListener {
 		draw();
 
 		gameData.getKeys().update();
+		updatePost();
+	}
+
+	private void updatePost() {
+		//post update
+		((IProcessor) components.getBean("IEntityPostProcessingServiceInjection")).process(gameData, world);
 	}
 
 	/**
@@ -76,12 +93,7 @@ public class Game implements ApplicationListener {
 	private void update() {
 
 		// Update
-		for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
-			entityProcessorService.process(gameData, world);
-		}
-		for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-			postEntityProcessorService.process(gameData, world);
-		}
+		((IProcessor) components.getBean("IEntityProcessingServiceInjection")).process(gameData, world);
 
 	}
 
@@ -107,31 +119,6 @@ public class Game implements ApplicationListener {
 		}
 	}
 
-	@Override
-	public void resize(int width, int height) {
-	}
-
-	@Override
-	public void pause() {
-	}
-
-	@Override
-	public void resume() {
-	}
-
-	@Override
-	public void dispose() {
-	}
-
-	/**
-	 * This method returns a collection of all the game plugin services that have been located using ServiceLoader.
-	 *
-	 * @return a collection of all the game plugin services
-	 */
-	private Collection<? extends IGamePluginService> getPluginServices() {
-		return SPILocator.locateAll(IGamePluginService.class);
-	}
-
 	/**
 	 * This method returns a collection of all the entity processing services that have been located using ServiceLoader.
 	 *
@@ -149,4 +136,22 @@ public class Game implements ApplicationListener {
 	private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
 		return SPILocator.locateAll(IPostEntityProcessingService.class);
 	}
+
+	@Override
+	public void resize(int width, int height) {
+	}
+
+	@Override
+	public void pause() {
+	}
+
+	@Override
+	public void resume() {
+	}
+
+	@Override
+	public void dispose() {
+	}
+
+
 }
