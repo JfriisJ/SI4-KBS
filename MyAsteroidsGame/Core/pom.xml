@@ -15,79 +15,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <libGDX.version>1.11.0</libGDX.version>
         <spring.version>6.0.8</spring.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>github</id>
-            <name>GitHub sweat-tek Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/sweat-tek/ShadedLibGDX</url>
-        </repository>
-    </repositories>
-
-    <dependencies>
-        <dependency>
-            <groupId>dk.sdu.mmmi.cbse</groupId>
-            <artifactId>shadedlibgdx</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <!-- Spring Context provides access to configured objects like a registry (a context).
-         It inherits its features from Spring Beans and adds support for internationalization,
-          event propagation, resource loading, and the transparent creation of contexts. -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!--Basic building block for Spring that in conjunction with Spring Beans provides
-        dependency injection and IoC features.-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-core</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!--Spring Beans provides the configuration framework and basic functionality to instantiate,
-         configure, and assemble java objects. -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- Powerful Expression Language for querying and manipulating an object graph at runtime.
-        It is an extension of the unified expression language (unified EL)
-        as specified in the JSP 2.1 specification -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-expression</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <!-- Spring AOP provides an Alliance-compliant aspect-oriented programming implementation
-         allowing you to define method interceptors and pointcuts to cleanly decouple code that
-          implements functionality that should be separated.-->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>Common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
             <plugin>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>copy-dependencies</id>
@@ -114,6 +50,12 @@
                                     <overWrite>true</overWrite>
                                     <outputDirectory>../libs</outputDirectory>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.springframework</groupId>
+                                    <artifactId>spring-context</artifactId>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>../libs</outputDirectory>
+                                </artifactItem>
                             </artifactItems>
                         </configuration>
                     </execution>
@@ -121,4 +63,55 @@
             </plugin>
         </plugins>
     </build>
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>GitHub sweat-tek Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/sweat-tek/ShadedLibGDX</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <!-- SPRING DEPENDENCIES -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>dk.sdu.mmmi.cbse</groupId>
+            <artifactId>shadedlibgdx</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>Common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>
